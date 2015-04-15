@@ -268,6 +268,47 @@ a {
 	
 	}
 
+.main-b-slider {
+	.slides {
+		.resetListStyle;
+		}
+
+	}
+
+.flex {
+	&-control-nav {
+		.resetListStyle;
+		text-align: center;
+
+		li {
+			display: inline-block;
+			}
+
+		a {
+			background-color: @blue;
+			border-radius: (50%);
+			width: 10px;
+			height: 10px;
+			display: inline-block;
+			margin: 0 3px;
+			cursor: pointer;
+
+			overflow: hidden;
+			text-indent: -100%;
+
+			&.flex-active {
+				background-color: darken(@blue, 10%);
+				}
+
+			}
+
+		}
+	&-direction-nav {
+
+		}
+
+	}
+
 .box-c {
 	width: auto;
 	margin: 30px 14%;
