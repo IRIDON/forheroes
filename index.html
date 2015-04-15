@@ -22,41 +22,57 @@
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 
-	<link rel="stylesheet/less" type="text/css" href="/css/main.less">
+	<link rel="stylesheet/less" type="text/css" href="css/main.less">
 	<script src="js/less.min.js"></script>
 	
-	<link href="http://fonts.googleapis.com/css?family=Roboto:400,700,500,300,400italic&subset=latin,cyrillic" rel="stylesheet" type="text/css">
+	<link href="http://fonts.googleapis.com/css?family=Cuprum:400,700&subset=latin,cyrillic" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<header class="header">
+	<header class="head">
 		<div class="wrapper">
-
+			<aside class="head__logo">For heroes</aside>
+			<menu class="head__menu">
+				<li class="head__menu__i">
+					<a href="#">Збір коштів</a>
+				</li>
+				<li class="head__menu__i">
+					<a href="#">Handmade For Heroes</a>
+				</li>
+				<li class="head__menu__i">
+					<a href="#">На що йдуть кошти</a>
+				</li>
+				<li class="head__menu__i">
+					<a href="#">Про нас</a>
+				</li>
+				<li class="head__menu__i">
+					<a href="#">UA</a>
+				</li>
+			</menu>
 		</div>
 	</header>
 	<div class="wrapper">
-		<section class="main-b">
-			<div class="galery-b">
-				<div class="galery-b__i">
-					<a href="images/galery-photo-1.jpg">
-						<img src="images/galery-photo-1-tmb.jpg" width="240" height="180" alt="">
-					</a>
+		<section class="main-b js-block">
+			<h1 class="main-b__title">{description}</h1>
+			<div class="row-fluid box-c">
+				<div class="span6">
+					<div class="info-t">Зібрано: <b>{amount} {currency}</b></div>
 				</div>
-				<div class="galery-b__i">
-					<a href="images/galery-photo-2.jpg">
-						<img src="images/galery-photo-2-tmb.jpg" width="240" height="180" alt="">
-					</a>
-				</div>
-				<div class="galery-b__i">
-					<a href="images/galery-photo-3.jpg">
-						<img src="images/galery-photo-3-tmb.jpg" width="240" height="180" alt="">
-					</a>
-				</div>
-				<div class="galery-b__i">
-					<a href="images/galery-photo-4.jpg">
-						<img src="images/galery-photo-4-tmb.jpg" width="240" height="180" alt="">
-					</a>
+				<div class="span6">
+					<div class="info-t">Треба зібрати: <b>{required_amount} {currency}</b></div>
 				</div>
 			</div>
+			<div class="row-fluid box-c">
+				<div class="span6">
+					<div class="cur-input">
+						<input class="cur-input__num" type="text" value="{default_amount}">
+						<span class="cur-input__t">{currency}</span>
+					</div>
+				</div>
+				<div class="span6">
+					<button class="btn">Сплатити</button>
+				</div>
+			</div>
+			<div class="galery-b">{images}</div>
 		</section>
 
 		<section class="sub-b">

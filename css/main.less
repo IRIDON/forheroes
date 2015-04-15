@@ -1,13 +1,127 @@
+/* Varibles
+   ========================================================================== */
 @main: #003a41;
 @blue: #00bbd3;
 @yellow: #ffeb3b;
 @grey: #eceef0;
 
+@fontFamily: Helvetica, Arial, Sans-serif;
+@fontFamilyTin: "Segoe UI", "Helvetica Neue", HelveticaNeue, Ubuntu, sans-serif;
+@fontTitle: Cuprum, Helvetica, Arial, Sans-serif;
+
+@MobileIndent: 10px;
+
+@HeadLogoFontSize: 40px;
+@HeadMenuitemFontSize: 20px;
+
+@highdensity: ~"only screen and (-webkit-min-device-pixel-ratio: 1.5)",
+              ~"only screen and (min--moz-device-pixel-ratio: 1.5)",
+              ~"only screen and (-o-min-device-pixel-ratio: 3/2)",
+              ~"only screen and (min-device-pixel-ratio: 1.5)";
+@m:  ~"only screen and (max-width: 640px)";
+@t:  ~"only screen and (max-width: 768px)";
+@o-t:  ~"only screen and (min-width: 640px) and (max-width: 768px)";
+@d:  ~"only screen and (max-width: 960px)";
+
+/* Mixin
+   ========================================================================== */
+.rotate(@degrees) {
+  -webkit-transform: rotate(@degrees);
+     -moz-transform: rotate(@degrees);
+      -ms-transform: rotate(@degrees);
+          transform: rotate(@degrees);
+}
+.scale(@ratio) {
+  -webkit-transform: scale(@ratio);
+     -moz-transform: scale(@ratio);
+      -ms-transform: scale(@ratio);
+          transform: scale(@ratio);
+}
+.translate(@x, @y) {
+  -webkit-transform: translate(@x, @y);
+     -moz-transform: translate(@x, @y);
+      -ms-transform: translate(@x, @y);
+          transform: translate(@x, @y);
+}
+.skew(@x, @y) {
+  -webkit-transform: skew(@x, @y);
+     -moz-transform: skew(@x, @y);
+      -ms-transform: skewX(@x) skewY(@y); // See https://github.com/twbs/bootstrap/issues/4885
+          transform: skew(@x, @y);
+  -webkit-backface-visibility: hidden; // See https://github.com/twbs/bootstrap/issues/5319
+}
+.translate3d(@x, @y, @z) {
+  -webkit-transform: translate3d(@x, @y, @z);
+     -moz-transform: translate3d(@x, @y, @z);
+          transform: translate3d(@x, @y, @z);
+}
+.transition(@transition) {
+	-webkit-transition: @transition;  
+	   -moz-transition: @transition;
+		-ms-transition: @transition; 
+			transition: @transition;  
+}
+.transform(@string) {
+	-webkit-transform: @string;
+	   -moz-transform: @string;
+		-ms-transform: @string;
+		 	transform: @string;
+}
+.transition-transform(@property) {
+	-webkit-transition: -webkit-transform @property;
+			transition: transform @property;  
+}
+.box-sizing(@boxmodel) {
+  -webkit-box-sizing: @boxmodel;
+     -moz-box-sizing: @boxmodel;
+          box-sizing: @boxmodel;
+}
+.box-shadow(@string) {
+	box-shadow: @string;
+}
+
+.clearfix() {
+	&:before,
+	&:after {
+		content: " "; // 1
+		display: table; // 2
+		}
+	&:after {
+		clear: both;
+		}
+		
+	}
+
+.box() {
+	background-color: #fff;
+	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.06);
+	}
+
+.resetListStyle() {
+	padding-left: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+
+	.ie-lt9 & {
+        margin-left: 0 !important;
+        }
+
+	& > li {
+		list-style: none;
+		margin-top: 0;
+		margin-bottom: 0;
+		}
+
+	}
+
+/* Base
+   ========================================================================== */
 @import "normalize.less";
+@import "grid.less";
 
 body {
 	background: #f3f4f5 url("../img/bg.png") repeat; 
-    font-family: Roboto, "Segoe UI", "HelveticaNeue Light", HelveticaNeue, Ubuntu, Sans-serif;
+    font-family: @fontFamilyTin;
     font-size: 16px;
     line-height: 1;
     color: @main;
@@ -29,49 +143,95 @@ a {
     color: @blue;
     }
 
-
-.box() {
-	background-color: #fff;
-	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.06);
-	}
-
-
-.clearfix() {
-	&:before,
-	&:after {
-		content: " "; // 1
-		display: table; // 2
-		}
-	&:after {
-		clear: both;
-		}
-}
-
+/* Project
+   ========================================================================== */
 .wrapper {
 	width: 960px;
 	margin: 0 auto;
+
+	@media @t {
+		width: auto;
+		margin: 0 @MobileIndent;
+		}
+
 	}
 
-.header {
+.head {
 	background-color: @blue;
 	border-bottom: 4px solid @yellow;
 	padding: 30px 0;
 	margin-top: 10px;
+	.clearfix;
+
+	&__logo {
+		font-family: @fontTitle;
+		font-size: @HeadLogoFontSize;
+		font-weight: 700;
+		float: left;
+		color: #fff;
+		text-transform: uppercase;
+		}
+	&__menu {
+		.clearfix;
+		.resetListStyle;
+		font-family: @fontTitle;
+		float: right;
+		margin: (@HeadLogoFontSize - @HeadMenuitemFontSize) / 2;
+
+		&__i {
+			float: left;
+			font-size: @HeadMenuitemFontSize;
+			font-weight: 700;
+			color: #fff;
+
+			& + & {
+				margin-left: 36px;
+				}
+
+			a {
+				color: inherit;
+				text-decoration: none;
+				.transition(color 250ms);
+
+				&:hover {
+					color: @yellow;
+					}
+
+				}
+
+			}
+
+		}
+
 	}
 
 .main-b {
 	.box();
 	padding: 10px 0;
 	margin: 10px 0;
+
+	&__title {
+		text-align: center;
+		font-family: @fontFamilyTin;
+		font-size: 60px;
+		font-weight: 100;
+		line-height: 1.3;
+
+		b {
+			font-weight: 300;
+			}
+
+		}
+
 	}
 
 	.galery-b {
 		padding: 0 10px 0 0;
+		text-align: center;
 		.clearfix;
 
 		&__i {
-			display: block;
-			float: left;
+			display: inline-block;
 			width: 100% / 4;
 			padding-left: 10px;
 			-webkit-box-sizing: border-box;
@@ -91,4 +251,62 @@ a {
 	.box();
 	padding: 30px 0;
 	margin: 30px 0;
+	}
+
+.btn {
+	background-color: @blue;
+	border: 0;
+	color: #fff;
+	font-size: 24px;
+	font-weight: 200;
+	padding: 20px 90px;
+	.box-shadow(0 -2px 0 0 darken(@blue, 10%) inset);
+	border-radius: 30px;
+	}
+
+.btn-sub-t {
+	
+	}
+
+.box-c {
+	width: auto;
+	margin: 30px 14%;
+	}
+
+.cur-input {
+	border-radius: 30px;
+	border: 2px solid @grey;
+	display: inline-block; vertical-align: top;
+	overflow: hidden;
+
+	&__num {
+		margin: 0;
+		border: 0;
+		padding: 0;
+		outline: none;
+		
+		max-width: 140px;
+		font-size: 30px;
+		padding: 13px 40px;
+		}
+
+	&__t {
+		display: inline-block;
+		font-size: 26px;
+		padding: 5px 15px;
+		border-left: 2px solid @grey;
+		}
+
+	}
+
+.info-t {
+	font-size: 24px;
+	font-weight: 200;
+	text-align: center;
+
+	b {
+		font-weight: inherit;
+		color: @blue;
+		}
+
 	}
