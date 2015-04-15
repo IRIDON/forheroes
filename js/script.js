@@ -32,7 +32,7 @@ $(document).ready(function() {
 			
 		};
 
-		$('.js-block').after('<section class="main-b">'+printBlock+'</section>');
+		$('.js-block').after('<section class="main-b" data-id="">'+printBlock+'</section>');
 	};
 
 	$('.js-block').remove();
@@ -40,11 +40,11 @@ $(document).ready(function() {
 
 	function createGalery(arr) {
 		var result = [];
-console.log(arr)
+
 		for (var i = 0; i < arr.length; i++) {
-			result.push('<div class="galery-b__i"><a href="'+arr[i]['image_name']+'"><img src="'+arr[i]['image_name']+'" width="240" height="180" alt="'+arr[i]['image_description']+'"></a></div>');
+			result.push('<div class="galery-b__i"><a href="http://app.forheroes.org.ua:8082/images/'+arr[i]['image_name']+'"><img src="http://app.forheroes.org.ua:8082/images/'+arr[i]['image_name']+'" width="240" height="180" alt="'+arr[i]['image_description']+'"></a></div>');
 		};
 
-		return result.join('')
+		return result.join('');
 	}
 });
