@@ -80,6 +80,19 @@
 	box-shadow: @string;
 }
 
+.check( @border: 1px, @color: @dark, @size: 12px, @rotate: -45deg, @uneven: false ) {
+	border-left: @border solid @color;
+    border-bottom: @border solid @color;
+    
+    width: @size;
+    height: @size;
+
+	& when (@uneven = true) {
+		height: @size*0.5;
+	}
+    .rotate(@rotate);
+	}	
+
 .clearfix() {
 	&:before,
 	&:after {
@@ -108,8 +121,6 @@
 
 	& > li {
 		list-style: none;
-		margin-top: 0;
-		margin-bottom: 0;
 		}
 
 	}
@@ -207,6 +218,7 @@ a {
 
 .main-b {
 	.box();
+	position: relative;
 	padding: 10px 0;
 	margin: 10px 0;
 
@@ -216,6 +228,8 @@ a {
 		font-size: 60px;
 		font-weight: 100;
 		line-height: 1.3;
+		margin-right: 60px;
+		margin-left: 60px;
 
 		b {
 			font-weight: 300;
@@ -226,6 +240,8 @@ a {
 	}
 
 	.galery-b {
+		@imageHeight: 180px;
+
 		padding: 0 10px 0 0;
 		text-align: center;
 		.clearfix;
@@ -233,6 +249,8 @@ a {
 		&__i {
 			display: inline-block;
 			width: 100% / 4;
+			height: @imageHeight;
+			overflow: hidden;
 			padding-left: 10px;
 			-webkit-box-sizing: border-box;
 			   -moz-box-sizing: border-box;
@@ -240,6 +258,7 @@ a {
 
 			img {
 				max-width: 100%;
+				min-height: @imageHeight;
 				height: auto;
 				}
 
@@ -279,6 +298,8 @@ a {
 	&-control-nav {
 		.resetListStyle;
 		text-align: center;
+		margin-top: 50px;
+		margin-bottom: 35px;
 
 		li {
 			display: inline-block;
@@ -290,22 +311,72 @@ a {
 			width: 10px;
 			height: 10px;
 			display: inline-block;
-			margin: 0 3px;
+			margin: 0 5px;
 			cursor: pointer;
+			opacity: 0.25;
+			.transition(opacity 300ms);
 
 			overflow: hidden;
 			text-indent: -100%;
 
 			&.flex-active {
-				background-color: darken(@blue, 10%);
+				opacity: 1;
 				}
 
 			}
 
 		}
-	&-direction-nav {
+	@navBtnWidth: 60px;
+	@navBtnHeight: 80px;
 
+	&-direction-nav {
+		.resetListStyle;
 		}
+		&-nav-prev,
+		&-nav-next {
+			position: absolute; top: 50%;
+			margin-top: -@navBtnWidth/2;
+			width: @navBtnWidth;
+			height: @navBtnHeight;
+			}
+		&-nav-prev {
+			left: 0;
+			}
+		&-nav-next {
+			right: 0;
+			}
+
+			&-prev,
+			&-next {
+				display: block;
+				width: 100%;
+				height: 100%;
+				background-color: fade(@blue, 10%);
+				text-indent: -200%;
+				overflow: hidden;
+				.transition(background-color 300ms);
+
+				&:before {
+					@size: 24px;
+
+					position: absolute; top: 50%; left: 50%;
+					margin-top: -@size / 2;
+					margin-left: -@size / 1.6;
+					content: "";
+					.check(3px, #fff, @size, 45deg);
+					}
+
+				&:hover {
+					background-color: fade(@blue, 20%);
+					}
+
+				}
+				&-prev:before {
+					.rotate(45deg);
+					}
+				&-next:before {
+					.rotate(-135deg);
+					}
 
 	}
 
