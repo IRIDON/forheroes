@@ -1,46 +1,25 @@
 var slideStart = 0;
 
 $(document).ready(function() {
-	var data = [{"id":1,"description":"Ми збираємо на амуніцію для наших героїв","destination":"Ми збираємо на форму, тактичне взуття, нижню білизну, розвантаження, бронежилети та ін. в підрозділи, які знаходяться на передовій і потребує допомоги найбільше.","default_amount":300.00,"amount":0.00,"required_amount":50000,"currency":"грн.","status":"Open","images":[{"image_name":"img-1.jpg","image_tmb_name":"img-1-tmb.jpg","image_description":"Блок пост за Артёмовском. Февраль 2015. \n"}, 
- {"image_name":"img-2.jpg","image_tmb_name":"img-2-tmb.jpg","image_description":"Центральный госпиталь. Артёмовск. Февраль 2015. "}]}, 
- {"id":2,"description":"Ми збираємо на лікування наших героїв","destination":"Ми збираємо на форму, тактичне взуття, нижню білизну, розвантаження, бронежилети та ін. в підрозділи, які знаходяться на передовій і потребує допомоги найбільше.","default_amount":400.00,"amount":26.55,"required_amount":100000,"currency":"грн.","status":"Open","images":[{"image_name":"img-1.jpg","image_tmb_name":"img-1-tmb.jpg","image_description":"Блок пост за Артёмовском. Февраль 2015. \n"}, 
- {"image_name":"img-2.jpg","image_tmb_name":"img-2-tmb.jpg","image_description":"Центральный госпиталь. Артёмовск. Февраль 2015. "}]}, 
- {"id":3,"description":"Ми збираємо на оптику для наших героїв","destination":"Ми збираємо на біноклі, прилади нічного бачення, коліматорні приціли, тепловізори в підрозділи, які знаходяться на передовій і потребує допомоги найбільше.","default_amount":300.00,"amount":0.00,"required_amount":120000,"currency":"грн.","status":"Open","images":[{"image_name":"img-1.jpg","image_tmb_name":"img-1-tmb.jpg","image_description":"Блок пост за Артёмовском. Февраль 2015. \n"}, 
- {"image_name":"img-2.jpg","image_tmb_name":"img-2-tmb.jpg","image_description":"Центральный госпиталь. Артёмовск. Февраль 2015. "}]}, 
- {"id":4,"description":"Ми збираємо на пікап для наших героїв","destination":"Ми збираємо на пікап для розвідників Правого Сектора для виконання бойових завдань в районі донецького аеропорту.","default_amount":400.00,"amount":0.00,"required_amount":150000,"currency":"грн.","status":"Open","images":[{"image_name":"img-1.jpg","image_tmb_name":"img-1-tmb.jpg","image_description":"Блок пост за Артёмовском. Февраль 2015. \n"}, 
- {"image_name":"img-2.jpg","image_tmb_name":"img-2-tmb.jpg","image_description":"Центральный госпиталь. Артёмовск. Февраль 2015. "}]}, 
- {"id":5,"description":"Ми збираємо на рації для наших героїв","destination":"Ми збираємо на рації в підрозділи, які знаходяться на передовій і потребує допомоги найбільше.","default_amount":50.00,"amount":0.00,"required_amount":30000,"currency":"грн.","status":"Open","images":[{"image_name":"img-1.jpg","image_tmb_name":"img-1-tmb.jpg","image_description":"Блок пост за Артёмовском. Февраль 2015. \n"}, 
- {"image_name":"img-2.jpg","image_tmb_name":"img-2-tmb.jpg","image_description":"Центральный госпиталь. Артёмовск. Февраль 2015. "}]}];
 
+	if (document.getElementById('mainBlock') != null) {
+		$.ajax({ 
+			type: 'GET', 
+			dataType: 'json', 
+			url: 'http://app.forheroes.org.ua:8082/api/projects', 
+			success: function (data) {
+				var projecAgr = addContent(data);
 
- 	if (document.getElementById('mainBlock') != null) {
-		var projecAgr = addContent(data);
+				projecAgr.sort(function() {
+					return (Math.round(Math.random())-0.5);
+				});
 
-		projecAgr.sort(function() {
-			return (Math.round(Math.random())-0.5);
+				for (var i = 0; i < projecAgr.length; i++) {
+					$('.js-mainSlider .slides').append(projecAgr[i]);
+				};
+			} 
 		});
-
-		for (var i = 0; i < projecAgr.length; i++) {
-			$('.js-mainSlider .slides').append(projecAgr[i]);
-		};
 	}
-
-	// $.ajax({ 
-	// 	type: 'GET', 
-	// 	dataType: 'json', 
-	// 	url: 'http://app.forheroes.org.ua:8082/api/projects', 
-	// 	success: function (data) {
-	// 		var projecAgr = addContent(data);
-
-	// 		projecAgr.sort(function() {
-	// 			return (Math.round(Math.random())-0.5);
-	// 		});
-
-	// 		for (var i = 0; i < projecAgr.length; i++) {
-	// 			$('.js-mainSlider .slides').append(projecAgr[i]);
-	// 		};
-	// 	} 
-	// });
 
 	var projectId = getUrlVars()['project_id'];
 
