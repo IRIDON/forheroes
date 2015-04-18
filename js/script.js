@@ -39,14 +39,15 @@ $(document).ready(function() {
 	// 		for (var i = 0; i < projecAgr.length; i++) {
 	// 			$('.js-mainSlider .slides').append(projecAgr[i]);
 	// 		};
+
+	// 		var slideStart = 0;
+	// 		var projectId = getUrlVars()['project_id'];
+
+	// 		if (projectId != undefined) {
+	// 			slideStart = $('.js-mainSlider .slides').children('li[data-id="'+projectId+'"]').index();
+	// 		}
 	// 	} 
 	// });
-
-	var projectId = getUrlVars()['project_id'];
-
-	if (projectId != undefined) {
-		slideStart = $('.js-mainSlider .slides').children('li[data-id="'+projectId+'"]').index();
-	}
 
 	$('.js-shareBtn').on('click', function(event) {
 		event.preventDefault();
