@@ -1,7 +1,7 @@
 var slideStart = 0;
 
 $(document).ready(function() {
-	var api = [{"id":1,"description":"Ми збираємо на амуніцію для наших героїв","destination":"Ми збираємо на форму, тактичне взуття, нижню білизну, розвантаження, бронежилети та ін. в підрозділи, які знаходяться на передовій і потребує допомоги найбільше.","default_amount":300.00,"amount":0.00,"required_amount":50000,"currency":"грн.","status":"Open","images":[{"image_name":"img-1.jpg","image_tmb_name":"img-1-tmb.jpg","image_description":"Блок пост за Артёмовском. Февраль 2015. \n"}, 
+	var data = [{"id":1,"description":"Ми збираємо на амуніцію для наших героїв","destination":"Ми збираємо на форму, тактичне взуття, нижню білизну, розвантаження, бронежилети та ін. в підрозділи, які знаходяться на передовій і потребує допомоги найбільше.","default_amount":300.00,"amount":0.00,"required_amount":50000,"currency":"грн.","status":"Open","images":[{"image_name":"img-1.jpg","image_tmb_name":"img-1-tmb.jpg","image_description":"Блок пост за Артёмовском. Февраль 2015. \n"}, 
  {"image_name":"img-2.jpg","image_tmb_name":"img-2-tmb.jpg","image_description":"Центральный госпиталь. Артёмовск. Февраль 2015. "}]}, 
  {"id":2,"description":"Ми збираємо на лікування наших героїв","destination":"Ми збираємо на форму, тактичне взуття, нижню білизну, розвантаження, бронежилети та ін. в підрозділи, які знаходяться на передовій і потребує допомоги найбільше.","default_amount":400.00,"amount":26.55,"required_amount":100000,"currency":"грн.","status":"Open","images":[{"image_name":"img-1.jpg","image_tmb_name":"img-1-tmb.jpg","image_description":"Блок пост за Артёмовском. Февраль 2015. \n"}, 
  {"image_name":"img-2.jpg","image_tmb_name":"img-2-tmb.jpg","image_description":"Центральный госпиталь. Артёмовск. Февраль 2015. "}]}, 
@@ -13,15 +13,34 @@ $(document).ready(function() {
  {"image_name":"img-2.jpg","image_tmb_name":"img-2-tmb.jpg","image_description":"Центральный госпиталь. Артёмовск. Февраль 2015. "}]}];
 
 
-	var projecAgr = addContent(api);
+ 	if (document.getElementById('mainBlock') != null) {
+		var projecAgr = addContent(data);
 
-	projecAgr.sort(function() {
-		return (Math.round(Math.random())-0.5);
-	});
+		projecAgr.sort(function() {
+			return (Math.round(Math.random())-0.5);
+		});
 
-	for (var i = 0; i < projecAgr.length; i++) {
-		$('.js-mainSlider .slides').append(projecAgr[i]);
-	};
+		for (var i = 0; i < projecAgr.length; i++) {
+			$('.js-mainSlider .slides').append(projecAgr[i]);
+		};
+	}
+
+	// $.ajax({ 
+	// 	type: 'GET', 
+	// 	dataType: 'json', 
+	// 	url: 'http://app.forheroes.org.ua:8082/api/projects', 
+	// 	success: function (data) {
+	// 		var projecAgr = addContent(data);
+
+	// 		projecAgr.sort(function() {
+	// 			return (Math.round(Math.random())-0.5);
+	// 		});
+
+	// 		for (var i = 0; i < projecAgr.length; i++) {
+	// 			$('.js-mainSlider .slides').append(projecAgr[i]);
+	// 		};
+	// 	} 
+	// });
 
 	var projectId = getUrlVars()['project_id'];
 
@@ -29,9 +48,36 @@ $(document).ready(function() {
 		slideStart = $('.js-mainSlider .slides').children('li[data-id="'+projectId+'"]').index();
 	}
 
+	$('.js-shareBtn').on('click', function(event) {
+		event.preventDefault();
+
+		var name = $(this).data('name');
+
+		Share[name]( getProjectInfo.url(), getProjectInfo.title(), getProjectInfo.image(), getProjectInfo.description() );
+	});
+
+	$('#toogleMenuBtn').on('click', function(event) {
+		event.preventDefault();
+
+		$(this).toggleClass('on');
+	});
+
+	for (var i = 0; i < $('.js-headMenu a').length; i++) {
+		var item = $('.js-headMenu a')[i];
+		var href = item.href.replace(window.location.origin+'/', '');
+		var loc = window.location.pathname.replace('/', '');
+
+		href = (href === '') ? './' : href;
+		
+		if ( loc.indexOf(href) != -1 ) {
+			item.classList.add('active');
+		}
+	};
 });
 
 $(window).load(function() {
+	$('body').removeClass('load');
+
 	$('.js-mainSlider').flexslider({
 		animation: "slide",
 		slideshow: false,
@@ -42,7 +88,7 @@ $(window).load(function() {
 
 function addContent(arg) {
 	var result = [];
-	var blockPatern = $('.js-block').html();
+	var blockPatern = document.getElementById('mainBlock').innerHTML;
 	var key = blockPatern.match(/\{\w*\}/g);
 	var printBlock = '';
 
@@ -65,7 +111,7 @@ function addContent(arg) {
 		result.push('<li class="" data-id="'+arg[i]['id']+'">'+printBlock+'</li>');
 	};
 
-	$('.js-block').remove();
+	document.getElementById('mainBlock').remove();
 
 	return result;
 }
@@ -134,3 +180,51 @@ function getInternetExplorerVersion() {
 
     return rv;
 };
+
+Share = {
+    facebook: function(purl, ptitle, pimg, text) {
+        url  = 'http://www.facebook.com/sharer.php?s=100';
+        url += '&p[title]='     + encodeURIComponent(ptitle);
+        url += '&p[summary]='   + encodeURIComponent(text);
+        url += '&p[url]='       + encodeURIComponent(purl);
+        url += '&p[images][0]=' + encodeURIComponent(pimg);
+
+        Share.popup(url);
+    },
+    twitter: function(purl, ptitle) {
+        url  = 'http://twitter.com/share?';
+        url += 'text='      + encodeURIComponent(ptitle);
+        url += '&url='      + encodeURIComponent(purl);
+        url += '&counturl=' + encodeURIComponent(purl);
+
+        Share.popup(url);
+    },
+
+    popup: function(url) {
+        window.open(url,'','toolbar=0,status=0,width=626,height=436');
+    }
+};
+
+getProjectInfo = {
+	url: function() {
+		var href = window.location.origin;
+		var id = $('.js-mainSlider').find('.flex-active-slide').data('id');
+
+		return href+'?project_id='+id;
+	},
+	title: function() {
+		var result = $('.js-mainSlider').find('.flex-active-slide h1').text();
+
+		return result;
+	},
+	description: function() {
+		var result = $('.js-mainSlider').find('.flex-active-slide .js-destination').text();
+
+		return result;
+	},
+	image: function() {
+		return $('.js-mainSlider').find('.flex-active-slide img').parent('a').first().attr('href');
+	},
+
+};
+

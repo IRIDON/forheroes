@@ -77,44 +77,10 @@
 		</div>
 	</header>
 	
-	<div id="mainBlock">
-		<div class="wrapper">
-			<section class="main-b">
-				<h1 class="main-b__title">{description}</h1>
-				<p class="main-b__des hidden js-destination">{destination}</p>
-				<div class="row-fluid box-c">
-					<div class="span6">
-						<div class="info-t">Зібрано: <b>{amount} {currency}</b></div>
-					</div>
-					<div class="span6">
-						<div class="info-t">Треба зібрати: <b>{required_amount} {currency}</b></div>
-					</div>
-				</div>
-				<div class="row-fluid box-c">
-					<form action="http://app.forheroes.org.ua:8082/api/donate" method="POST">
-						<div class="span6">
-							<div class="cur-input">
-								<span class="cur-input__t">{currency}</span>
-
-								<div class="cur-input__w">
-									<input class="cur-input__num" type="number" name="amount" value="{default_amount}">
-								</div>
-							</div>
-						</div>
-						<div class="span6">
-							<button class="btn">Сплатити</button>
-
-							<input type="hidden" name="project_id" value="{id}">
-						</div>
-					</form>
-				</div>
-				<div class="galery-b">{images}</div>
-			</section>
-		</div>
-	</div>
-
-	<div class="main-b-slider js-mainSlider">
-		<ul class="slides"></ul>
+	<div class="wrapper">
+		<section class="main-b">
+			
+		</section>
 	</div>
 
 	<div class="wrapper">
