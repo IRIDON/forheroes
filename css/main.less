@@ -180,10 +180,18 @@ a {
 	position: relative;
 	.clearfix;
 
+	&__flag {
+		background: url("../img/em-ribbon.png") no-repeat 0 0 / cover;
+		position: absolute; top: 0; bottom: 0; left: 0; z-index: 1;
+		display: block;
+		width: 100px;
+		}
+
 	&__logo {
 		font-family: @fontTitle;
 		font-size: @HeadLogoFontSize;
 		font-weight: 700;
+		position: relative; z-index: 2;
 		float: left;
 		color: #fff;
 		text-transform: uppercase;

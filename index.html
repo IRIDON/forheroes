@@ -38,7 +38,9 @@
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet/less" type="text/css" href="css/main.less">
+	<script src="js/less.min.js"></script>
+	<!-- <link rel="stylesheet" type="text/css" href="css/main.css"> -->
 
 	<link href="http://fonts.googleapis.com/css?family=Cuprum:400,700&subset=latin,cyrillic" rel="stylesheet" type="text/css">
 </head>
@@ -66,14 +68,17 @@
 	</div>
 
 	<header class="head">
-		<a href="http://stfalcon.github.io/euromaidan/" class="em-ribbon" style="position: absolute; left:0; top:0; width: 90px; height: 90px; background: url('http://stfalcon.github.io/euromaidan/img/em-ribbon.png'); z-index: 2013; border: 0;" title="Розмісти стрічку з символікою України і ЄС на своєму сайті!" target="_blank"></a>
+		<i class="head__flag"></i>
+
 		<div class="wrapper">
 			<aside class="head__logo">For heroes</aside>
+
 			<button class="toogle-menu" id="toogleMenuBtn">
                 <i class="toogle-menu__i"></i>
                 <i class="toogle-menu__i"></i>
                 <i class="toogle-menu__i"></i>
             </button>
+
 			<menu class="head__menu js-headMenu">
 				<li class="head__menu__i">
 					<a href="./">Збір коштів</a>
