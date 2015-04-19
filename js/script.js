@@ -1,81 +1,38 @@
-var slideStart = 0;
-
 $(document).ready(function() {
-	var data = [{"id":1,"description":"Ми збираємо на амуніцію для наших героїв","destination":"Ми збираємо на форму, тактичне взуття, нижню білизну, розвантаження, бронежилети та ін. в підрозділи, які знаходяться на передовій і потребує допомоги найбільше.","default_amount":300.00,"amount":0.00,"required_amount":50000,"currency":"грн.","status":"Open","images":[{"image_name":"img-1.jpg","image_tmb_name":"img-1-tmb.jpg","image_description":"Блок пост за Артемівськом. Лютий 2015\n"}, 
- {"image_name":"img-2.jpg","image_tmb_name":"img-2-tmb.jpg","image_description":"Миронівський блок пост. Лютий 2015"}, 
- {"image_name":"img-3.jpg","image_tmb_name":"img-3-tmb.jpg","image_description":"ВЧ А0139. Київ. Січень 2015"}, 
- {"image_name":"img-4.jpg","image_tmb_name":"img-4-tmb.jpg","image_description":"ДУК ПС. Автор: Олена Білозерська. Березень 2015"}]}, 
- {"id":2,"description":"Ми збираємо на лікування наших героїв","destination":"Ми збираємо на форму, тактичне взуття, нижню білизну, розвантаження, бронежилети та ін. в підрозділи, які знаходяться на передовій і потребує допомоги найбільше.","default_amount":400.00,"amount":26.55,"required_amount":100000,"currency":"грн.","status":"Open","images":[{"image_name":"img-5.jpg","image_tmb_name":"img-5-tmb.jpg","image_description":"Центральний госпіталь. Артемівськ. Лютий 2015"}, 
- {"image_name":"img-6.jpg","image_tmb_name":"img-6-tmb.jpg","image_description":"Військовий госпіталь. Артемівськ. Лютий 2015"}, 
- {"image_name":"img-7.jpg","image_tmb_name":"img-7-tmb.jpg","image_description":"Військовий госпіталь. Артемівськ. Лютий 2015"}, 
- {"image_name":"img-8.jpg","image_tmb_name":"img-8-tmb.jpg","image_description":"Посилка в госпіталь. Константинівка. Грудень 2014"}]}, 
- {"id":3,"description":"Ми збираємо на оптику для наших героїв","destination":"Ми збираємо на біноклі, прилади нічного бачення, коліматорні приціли, тепловізори в підрозділи, які знаходяться на передовій і потребує допомоги найбільше.","default_amount":300.00,"amount":0.00,"required_amount":120000,"currency":"грн.","status":"Open","images":[{"image_name":"img-9.jpg","image_tmb_name":"img-9-tmb.jpg","image_description":"6"}, 
- {"image_name":"img-10.jpg","image_tmb_name":"img-10-tmb.jpg","image_description":"10"}, 
- {"image_name":"img-11.jpg","image_tmb_name":"img-11-tmb.jpg","image_description":"11"}, 
- {"image_name":"img-12.jpg","image_tmb_name":"img-12-tmb.jpg","image_description":"12"}]}, 
- {"id":4,"description":"Ми збираємо на пікап для наших героїв","destination":"Ми збираємо на пікап для розвідників Правого Сектора для виконання бойових завдань в районі донецького аеропорту.","default_amount":400.00,"amount":0.00,"required_amount":150000,"currency":"грн.","status":"Open","images":[{"image_name":"img-13.jpg","image_tmb_name":"img-13-tmb.jpg","image_description":"Дорога на Дебальцеве. Грудень 2014"}, 
- {"image_name":"img-14.jpg","image_tmb_name":"img-14-tmb.jpg","image_description":"Дорога на Дебальцеве. Лютий 2015"}, 
- {"image_name":"img-15.jpg","image_tmb_name":"img-15-tmb.jpg","image_description":"15"}, 
- {"image_name":"img-16.jpg","image_tmb_name":"img-16-tmb.jpg","image_description":"ДУК ПС. Донецька область. Квітень 2015"}]}, 
- {"id":5,"description":"Ми збираємо на рації для наших героїв","destination":"Ми збираємо на рації в підрозділи, які знаходяться на передовій і потребує допомоги найбільше.","default_amount":50.00,"amount":0.00,"required_amount":30000,"currency":"грн.","status":"Open","images":[{"image_name":"img-17.jpg","image_tmb_name":"img-17-tmb.jpg","image_description":"Бійці реактивної артилерії. Артемівськ. Лютий 2015"}, 
- {"image_name":"img-18.jpg","image_tmb_name":"img-18-tmb.jpg","image_description":"Краматорськ. Лютий 2015"}, 
- {"image_name":"img-19.jpg","image_tmb_name":"img-19-tmb.jpg","image_description":"Артемівськ. Лютий 2015"}, 
- {"image_name":"img-20.jpg","image_tmb_name":"img-20-tmb.jpg","image_description":"Краматорський аеродром. Лютий 2015"}]}];
+	$.ajax({ 
+		type: 'GET', 
+		dataType: 'json', 
+		url: 'http://app.forheroes.org.ua:8082/api/projects', 
+		success: function (data) {
+		 	if (document.getElementById('mainBlock') != null) {
+				var projecAgr = addContent(data);
 
+				projecAgr.sort(function() {
+					return (Math.round(Math.random())-0.5);
+				});
 
- 	if (document.getElementById('mainBlock') != null) {
-		var projecAgr = addContent(data);
+				for (var i = 0; i < projecAgr.length; i++) {
+					$('.js-mainSlider .slides').append(projecAgr[i]);
+				};
 
-		projecAgr.sort(function() {
-			return (Math.round(Math.random())-0.5);
-		});
+				var slideStart = 0;
+				var projectId = getUrlVars()['project_id'];
 
-		for (var i = 0; i < projecAgr.length; i++) {
-			$('.js-mainSlider .slides').append(projecAgr[i]);
-		};
+				if (projectId != undefined) {
+					slideStart = $('.js-mainSlider .slides').children('li[data-id="'+projectId+'"]').index();
+				}
 
-		var slideStart = 0;
-		var projectId = getUrlVars()['project_id'];
-
-		if (projectId != undefined) {
-			slideStart = $('.js-mainSlider .slides').children('li[data-id="'+projectId+'"]').index();
-		}
-
-		$('.js-mainSlider').flexslider({
-			animation: "slide",
-			slideshow: true,
-			slideshowSpeed: 7000,
-			pauseOnHover: true,
-			animationLoop: false,
-			startAt: slideStart
-		});
-	}
-
-
-
-	// $.ajax({ 
-	// 	type: 'GET', 
-	// 	dataType: 'json', 
-	// 	url: 'http://app.forheroes.org.ua:8082/api/projects', 
-	// 	success: function (data) {
-	// 		var projecAgr = addContent(data);
-
-	// 		projecAgr.sort(function() {
-	// 			return (Math.round(Math.random())-0.5);
-	// 		});
-
-	// 		for (var i = 0; i < projecAgr.length; i++) {
-	// 			$('.js-mainSlider .slides').append(projecAgr[i]);
-	// 		};
-
-	// 		var slideStart = 0;
-	// 		var projectId = getUrlVars()['project_id'];
-
-	// 		if (projectId != undefined) {
-	// 			slideStart = $('.js-mainSlider .slides').children('li[data-id="'+projectId+'"]').index();
-	// 		}
-	// 	} 
-	// });
+				$('.js-mainSlider').flexslider({
+					animation: "slide",
+					slideshow: true,
+					slideshowSpeed: 7000,
+					pauseOnHover: true,
+					animationLoop: false,
+					startAt: slideStart
+				});
+			}
+		} 
+	});
 
 	$('#toogleMenuBtn').on('click', function(event) {
 		event.preventDefault();
