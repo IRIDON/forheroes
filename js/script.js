@@ -1,44 +1,88 @@
 var slideStart = 0;
 
 $(document).ready(function() {
+	var data = [{"id":1,"description":"Ми збираємо на амуніцію для наших героїв","destination":"Ми збираємо на форму, тактичне взуття, нижню білизну, розвантаження, бронежилети та ін. в підрозділи, які знаходяться на передовій і потребує допомоги найбільше.","default_amount":300.00,"amount":0.00,"required_amount":50000,"currency":"грн.","status":"Open","images":[{"image_name":"img-1.jpg","image_tmb_name":"img-1-tmb.jpg","image_description":"Блок пост за Артемівськом. Лютий 2015\n"}, 
+ {"image_name":"img-2.jpg","image_tmb_name":"img-2-tmb.jpg","image_description":"Миронівський блок пост. Лютий 2015"}, 
+ {"image_name":"img-3.jpg","image_tmb_name":"img-3-tmb.jpg","image_description":"ВЧ А0139. Київ. Січень 2015"}, 
+ {"image_name":"img-4.jpg","image_tmb_name":"img-4-tmb.jpg","image_description":"ДУК ПС. Автор: Олена Білозерська. Березень 2015"}]}, 
+ {"id":2,"description":"Ми збираємо на лікування наших героїв","destination":"Ми збираємо на форму, тактичне взуття, нижню білизну, розвантаження, бронежилети та ін. в підрозділи, які знаходяться на передовій і потребує допомоги найбільше.","default_amount":400.00,"amount":26.55,"required_amount":100000,"currency":"грн.","status":"Open","images":[{"image_name":"img-5.jpg","image_tmb_name":"img-5-tmb.jpg","image_description":"Центральний госпіталь. Артемівськ. Лютий 2015"}, 
+ {"image_name":"img-6.jpg","image_tmb_name":"img-6-tmb.jpg","image_description":"Військовий госпіталь. Артемівськ. Лютий 2015"}, 
+ {"image_name":"img-7.jpg","image_tmb_name":"img-7-tmb.jpg","image_description":"Військовий госпіталь. Артемівськ. Лютий 2015"}, 
+ {"image_name":"img-8.jpg","image_tmb_name":"img-8-tmb.jpg","image_description":"Посилка в госпіталь. Константинівка. Грудень 2014"}]}, 
+ {"id":3,"description":"Ми збираємо на оптику для наших героїв","destination":"Ми збираємо на біноклі, прилади нічного бачення, коліматорні приціли, тепловізори в підрозділи, які знаходяться на передовій і потребує допомоги найбільше.","default_amount":300.00,"amount":0.00,"required_amount":120000,"currency":"грн.","status":"Open","images":[{"image_name":"img-9.jpg","image_tmb_name":"img-9-tmb.jpg","image_description":"6"}, 
+ {"image_name":"img-10.jpg","image_tmb_name":"img-10-tmb.jpg","image_description":"10"}, 
+ {"image_name":"img-11.jpg","image_tmb_name":"img-11-tmb.jpg","image_description":"11"}, 
+ {"image_name":"img-12.jpg","image_tmb_name":"img-12-tmb.jpg","image_description":"12"}]}, 
+ {"id":4,"description":"Ми збираємо на пікап для наших героїв","destination":"Ми збираємо на пікап для розвідників Правого Сектора для виконання бойових завдань в районі донецького аеропорту.","default_amount":400.00,"amount":0.00,"required_amount":150000,"currency":"грн.","status":"Open","images":[{"image_name":"img-13.jpg","image_tmb_name":"img-13-tmb.jpg","image_description":"Дорога на Дебальцеве. Грудень 2014"}, 
+ {"image_name":"img-14.jpg","image_tmb_name":"img-14-tmb.jpg","image_description":"Дорога на Дебальцеве. Лютий 2015"}, 
+ {"image_name":"img-15.jpg","image_tmb_name":"img-15-tmb.jpg","image_description":"15"}, 
+ {"image_name":"img-16.jpg","image_tmb_name":"img-16-tmb.jpg","image_description":"ДУК ПС. Донецька область. Квітень 2015"}]}, 
+ {"id":5,"description":"Ми збираємо на рації для наших героїв","destination":"Ми збираємо на рації в підрозділи, які знаходяться на передовій і потребує допомоги найбільше.","default_amount":50.00,"amount":0.00,"required_amount":30000,"currency":"грн.","status":"Open","images":[{"image_name":"img-17.jpg","image_tmb_name":"img-17-tmb.jpg","image_description":"Бійці реактивної артилерії. Артемівськ. Лютий 2015"}, 
+ {"image_name":"img-18.jpg","image_tmb_name":"img-18-tmb.jpg","image_description":"Краматорськ. Лютий 2015"}, 
+ {"image_name":"img-19.jpg","image_tmb_name":"img-19-tmb.jpg","image_description":"Артемівськ. Лютий 2015"}, 
+ {"image_name":"img-20.jpg","image_tmb_name":"img-20-tmb.jpg","image_description":"Краматорський аеродром. Лютий 2015"}]}];
 
-	if (document.getElementById('mainBlock') != null) {
-		$.ajax({ 
-			type: 'GET', 
-			dataType: 'json', 
-			url: 'http://app.forheroes.org.ua:8082/api/projects', 
-			success: function (data) {
-				var projecAgr = addContent(data);
 
-				projecAgr.sort(function() {
-					return (Math.round(Math.random())-0.5);
-				});
+ 	if (document.getElementById('mainBlock') != null) {
+		var projecAgr = addContent(data);
 
-				for (var i = 0; i < projecAgr.length; i++) {
-					$('.js-mainSlider .slides').append(projecAgr[i]);
-				};
-			} 
+		projecAgr.sort(function() {
+			return (Math.round(Math.random())-0.5);
+		});
+
+		for (var i = 0; i < projecAgr.length; i++) {
+			$('.js-mainSlider .slides').append(projecAgr[i]);
+		};
+
+		var slideStart = 0;
+		var projectId = getUrlVars()['project_id'];
+
+		if (projectId != undefined) {
+			slideStart = $('.js-mainSlider .slides').children('li[data-id="'+projectId+'"]').index();
+		}
+
+		$('.js-mainSlider').flexslider({
+			animation: "slide",
+			slideshow: true,
+			slideshowSpeed: 7000,
+			pauseOnHover: true,
+			animationLoop: false,
+			startAt: slideStart
 		});
 	}
 
-	var projectId = getUrlVars()['project_id'];
 
-	if (projectId != undefined) {
-		slideStart = $('.js-mainSlider .slides').children('li[data-id="'+projectId+'"]').index();
-	}
 
-	$('.js-shareBtn').on('click', function(event) {
-		event.preventDefault();
+	// $.ajax({ 
+	// 	type: 'GET', 
+	// 	dataType: 'json', 
+	// 	url: 'http://app.forheroes.org.ua:8082/api/projects', 
+	// 	success: function (data) {
+	// 		var projecAgr = addContent(data);
 
-		var name = $(this).data('name');
+	// 		projecAgr.sort(function() {
+	// 			return (Math.round(Math.random())-0.5);
+	// 		});
 
-		Share[name]( getProjectInfo.url(), getProjectInfo.title(), getProjectInfo.image(), getProjectInfo.description() );
-	});
+	// 		for (var i = 0; i < projecAgr.length; i++) {
+	// 			$('.js-mainSlider .slides').append(projecAgr[i]);
+	// 		};
+
+	// 		var slideStart = 0;
+	// 		var projectId = getUrlVars()['project_id'];
+
+	// 		if (projectId != undefined) {
+	// 			slideStart = $('.js-mainSlider .slides').children('li[data-id="'+projectId+'"]').index();
+	// 		}
+	// 	} 
+	// });
 
 	$('#toogleMenuBtn').on('click', function(event) {
 		event.preventDefault();
 
 		$(this).toggleClass('on');
+
+		SendInfoGA('MobleMenu', ($(this).hasClass('on') ? 'show':'hidden' ) );
 	});
 
 	for (var i = 0; i < $('.js-headMenu a').length; i++) {
@@ -52,16 +96,85 @@ $(document).ready(function() {
 			item.classList.add('active');
 		}
 	};
+
+	$(document).on('click', '.js-showDes', function(event) {
+		event.preventDefault();
+
+		$('.js-destination').toggleClass('on');
+
+		var id = $(this).parent('.js-block').data('id');
+
+		SendInfoGA('projectDestination', 'project-'+id );
+	});
+
+	$('.js-mainSlider').on('click', 'button', function() {
+		var id = $(this).parent('.js-block').data('id');
+		var price = $(this).parent('.js-block').find('input[name=amount]').val();
+
+		SendInfoGA('projectSubmit', 'project-'+id, price);
+	});
+
+	$('.js-galery').on('click', 'a', function() {
+		var id = $(this).parent('.js-block').data('id');
+
+		SendInfoGA('projectGalery', 'project-'+id);
+	});
+
+	$('.js-social').on('click', 'a', function() {
+		var val = $(this).attr('title');
+
+		SendInfoGA('socialShare-'+val, $('.js-mainSlider').find('.flex-active-slide').data('id') );
+	});
 });
 
 $(window).load(function() {
 	$('body').removeClass('load');
 
-	$('.js-mainSlider').flexslider({
-		animation: "slide",
-		slideshow: false,
-		animationLoop: false,
-		startAt: slideStart
+	$('#fb-share').on('click', function(event) {
+		event.preventDefault();
+
+		var block = $('.js-mainSlider').find('.flex-active-slide');
+
+		postToFeed(
+			block.find('h1').text(),
+			block.find('.js-destination').text(),
+			window.location.origin+'?project_id='+block.data('id'),
+			block.find('img').eq(0).parent('a').attr('href')
+		);
+	});
+
+	window.fbAsyncInit = function() {
+		FB.init({
+		    appId: '863626517043636',
+		    status: true,
+		    cookie: true,
+		    xfbml: true
+		}); 
+	};
+	(function(d, debug){var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];if   (d.getElementById(id)) {return;}js = d.createElement('script'); js.id = id; js.async = true;js.src = "//connect.facebook.net/en_US/all" + (debug ? "/debug" : "") + ".js";ref.parentNode.insertBefore(js, ref);}(document, /*debug*/ false));
+	function postToFeed(title, desc, url, image) {
+		var obj = {
+			method: 'feed',
+			link: url,
+			picture: image,
+			name: title,
+			description: desc
+		};
+		function callback(response){}
+		FB.ui(obj, callback);
+	}
+
+	$('#tw-share').on('click', function(event) {
+		event.preventDefault();
+
+		var block = $('.js-mainSlider').find('.flex-active-slide');
+
+ 		url  = 'http://twitter.com/share?';
+        url += 'text='      + encodeURIComponent(block.find('h1').text());
+        url += '&url='      + encodeURIComponent(window.location.origin+'?project_id='+block.data('id'));
+        url += '&counturl=' + encodeURIComponent(window.location.origin+'?project_id='+block.data('id'));
+
+        window.open(url,'','toolbar=0,status=0,width=626,height=436');
 	});
 });
 
@@ -87,18 +200,19 @@ function addContent(arg) {
 			printBlock = printBlock.replace( key[j], replaceId );
 		};
 
-		result.push('<li class="" data-id="'+arg[i]['id']+'">'+printBlock+'</li>');
+		result.push('<li class="js-block" data-id="'+arg[i]['id']+'">'+printBlock+'</li>');
 	};
 
 	document.getElementById('mainBlock').remove();
 
 	return result;
 }
+
 function createGalery(arg) {
 	var result = [];
 
 	for (var i = 0; i < arg.length; i++) {
-		result.push('<div class="galery-b__i"><a data-gallery href="http://app.forheroes.org.ua:8082/images/'+arg[i]['image_name']+'" target="_blank"><img src="http://app.forheroes.org.ua:8082/images/'+arg[i]['image_tmb_name']+'" width="240" height="180" alt="'+arg[i]['image_description']+'"></a></div>');
+		result.push('<div class="galery-b__i"><a data-gallery href="http://app.forheroes.org.ua:8082/images/'+arg[i]['image_name']+'" title="'+arg[i]['image_description']+'" target="_blank"><img src="http://app.forheroes.org.ua:8082/images/'+arg[i]['image_tmb_name']+'" width="240" height="180" alt="'+arg[i]['image_description']+'"></a></div>');
 	};
 
 	return result.join('');
@@ -160,50 +274,8 @@ function getInternetExplorerVersion() {
     return rv;
 };
 
-Share = {
-    facebook: function(purl, ptitle, pimg, text) {
-        url  = 'http://www.facebook.com/sharer.php?s=100';
-        url += '&p[title]='     + encodeURIComponent(ptitle);
-        url += '&p[summary]='   + encodeURIComponent(text);
-        url += '&p[url]='       + encodeURIComponent(purl);
-        url += '&p[images][0]=' + encodeURIComponent(pimg);
+function SendInfoGA(group, lable, metod) {
+	var metod = metod || 'Click';
 
-        Share.popup(url);
-    },
-    twitter: function(purl, ptitle) {
-        url  = 'http://twitter.com/share?';
-        url += 'text='      + encodeURIComponent(ptitle);
-        url += '&url='      + encodeURIComponent(purl);
-        url += '&counturl=' + encodeURIComponent(purl);
-
-        Share.popup(url);
-    },
-
-    popup: function(url) {
-        window.open(url,'','toolbar=0,status=0,width=626,height=436');
-    }
+	ga('send', 'event', group, metod, lable);
 };
-
-getProjectInfo = {
-	url: function() {
-		var href = window.location.origin;
-		var id = $('.js-mainSlider').find('.flex-active-slide').data('id');
-
-		return href+'?project_id='+id;
-	},
-	title: function() {
-		var result = $('.js-mainSlider').find('.flex-active-slide h1').text();
-
-		return result;
-	},
-	description: function() {
-		var result = $('.js-mainSlider').find('.flex-active-slide .js-destination').text();
-
-		return result;
-	},
-	image: function() {
-		return $('.js-mainSlider').find('.flex-active-slide img').parent('a').first().attr('href');
-	},
-
-};
-

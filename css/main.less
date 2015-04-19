@@ -328,11 +328,27 @@ a {
 
 		}
 
+	&__des {
+		text-align: center;
+		display: none;
+		margin: 0 60px;
+
+		&.on {
+			display: block;
+			}
+
+		@media @m {
+			margin: 0 @MobileIndent;
+			}
+
+		}
+
 	}
 
 	.galery-b {
 		@imageHeight: 180px;
 
+		margin-top: 30px;
 		padding: 0 10px 0 0;
 		text-align: center;
 		.clearfix;
@@ -477,7 +493,8 @@ a {
 
 .box-c {
 	width: auto;
-	margin: 30px 14%;
+	margin: 24px 14%;
+	text-align: center;
 
 	@media @m {
 		margin-right: @MobileIndent;
@@ -554,11 +571,26 @@ a {
 	}
 
 .btn-sub-t {
+	text-align: center;
+
+	a {
+		border-bottom: 1px dotted;
+		text-decoration: none;
+		color: inherit;
+		.transition(border-color 300ms);
+
+		&:hover {
+			border-bottom: 0;
+			border-color: #fff;
+			}
+
+		}
 	
 	}
 
 .info-t {
 	font-size: 24px;
+	line-height: 1.5;
 	font-weight: 200;
 	text-align: center;
 
