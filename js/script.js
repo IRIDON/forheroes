@@ -1,7 +1,15 @@
-$(document).ready(function() {
+var API = ( location.href.indexOf('forheroes.org.ua') == -1 ) ? 'data.json': 'http://app.forheroes.org.ua:8082/api/projects';
 
-	var API = ( location.href.indexOf('forheroes.org.ua') == -1 ) ? 'data.json': 'http://app.forheroes.org.ua:8082/api/projects';
-	
+var siteSlug = /[^\/]*\.html/.exec(location.href);
+var siteSlug = (siteSlug == null) ? '' : siteSlug;
+
+var siteHost = location.href.replace(siteSlug, '');
+var siteFlag = /\/[a-z][a-z]\//.exec(siteHost);
+var siteHost = siteHost.replace(siteFlag, '/');
+var availableLanguage = [];
+var languageCookie = readCookie('language');
+
+$(document).ready(function() {
 	if ( $('#projectBlock').length ) {
 		$.ajax({ 
 			type: 'GET', 
@@ -34,6 +42,42 @@ $(document).ready(function() {
 			} 
 		});
 	}
+
+	$('#languageSwitcher').find('a').each(function(index, el) {
+		availableLanguage.push( $(this).data('id') );
+	});
+
+/* LANGUAGE
+   ========================================================================== */
+ //    siteFlag = (siteFlag == null) ? availableLanguage[0] : siteFlag.toString().replace(/\//g,'');
+
+	// if ( languageCookie == null ) {
+	// 	var navLanguage = navigator.language;
+
+	// 	if ( $.inArray(navLanguage, availableLanguage) != -1 ) {
+	// 		languageSwitcher(navLanguage);
+	// 	} else {
+	// 		createCookie('language', availableLanguage[0], 30);
+	// 	}
+	// } else {
+	// 	languageSwitcher(languageCookie);
+	// }
+	
+
+	// $('#languageSwitcher').on('click', 'a', function(event) {
+	// 	event.preventDefault();
+
+	// 	if ( !$(this).hasClass('on') ) {
+	// 		languageSwitcher( $(this).data('id') );
+	// 	}
+
+	// 	$(this).parent().children('a').removeClass('on');
+	// 	$(this).addClass('on');
+	// });
+
+	// setFlagSwitcher();
+/* LANGUAGE
+   ========================================================================== */
 
 	$('#toogleMenuBtn').on('click', function(event) {
 		event.preventDefault();
@@ -201,8 +245,31 @@ function getInternetExplorerVersion() {
     return rv;
 };
 
-function SendInfoGA(group, lable, metod) {
-	var metod = metod || 'Click';
+function languageSwitcher(id) {
+    if ( siteFlag != id ) {
+        createCookie('language', id, 30);
 
-	ga('send', 'event', group, metod, lable);
-};
+        var id = ( id == availableLanguage[0] ) ? '' : id+'/';
+
+        document.location.href = siteHost+id+siteSlug;
+    }
+}
+
+function setFlagSwitcher() {
+	$('#languageSwitcher a').each(function() {
+		var itemId = $(this).data('id');
+
+		if ( siteFlag == itemId ) {
+			$(this).addClass('on')
+		} else {
+			$(this).removeClass('on');
+		}
+	});
+}
+
+function SendInfoGA(group, lable, metod) {
+    var metod = metod||'Click';
+    var lable = lable.replace(/\s/g,'');
+
+    ga('send', 'event', group, metod, lable);
+}

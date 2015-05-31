@@ -262,9 +262,7 @@ a {
 			height: @imageHeight;
 			overflow: hidden;
 			padding-left: 10px;
-			-webkit-box-sizing: border-box;
-			   -moz-box-sizing: border-box;
-					box-sizing: border-box;
+			box-sizing: border-box;
 
 			@media @m {
 				width: 100% / 2;
@@ -632,7 +630,7 @@ a {
 	font-size: 24px;
 	font-weight: 200;
 	padding: 20px @sideIndented;
-	.box-shadow(0 -2px 0 0 darken(@blue, 10%) inset);
+	box-shadow: 0 -2px 0 0 darken(@blue, 10%) inset;
 	width: 100%;
 	max-width: @width;
 	.box-sizing(border-box);
@@ -1091,3 +1089,5 @@ a {
   transform: rotate(900deg);
   }
 }
+
+@import "blueimp-gallery.min.css";
