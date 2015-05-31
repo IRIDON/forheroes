@@ -33,6 +33,17 @@ a {
 
 /* Project
    ========================================================================== */
+.wrap() {
+	width: @tableDesktop;
+	margin: 0 auto;
+
+	@media @t {
+		width: auto;
+		margin: 0 @MobileIndent;
+		}
+
+	}
+	
 .wrapper {
 	.wrap();
 	}
@@ -257,13 +268,26 @@ a {
 
 			@media @m {
 				width: 100% / 2;
+				height: @imageHeight / 2;
 				}
 
-			img {
-				max-width: 100%;
-				min-height: @imageHeight;
-				height: auto;
+			a {
+				width: 100%;
+				height: 100%;
+				display: block;
+				overflow: hidden;
 				}
+				img {
+					position: relative; left: 50%;
+					min-height: @imageHeight;
+					height: auto;
+					.translate(-50%, 0);
+
+					@media @m {
+						min-height: @imageHeight / 2;
+						}
+
+					}
 
 			}
 
