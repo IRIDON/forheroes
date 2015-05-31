@@ -1,0 +1,47 @@
+{{#each proj}}
+{{#if status}}
+<li class="js-block" data-id="{{id}}">
+	<div class="wrapper">
+		<section class="proj-b">
+			<h1 class="proj-b__title">{{description}}</h1>
+
+			<div class="box-c">
+				<div class="info-t">Зібрано: <b>{{amount}} {{currency}}</b></div>
+				<div class="info-t">Треба зібрати: <b>{{required_amount}} {{currency}}</b></div>
+
+				<div class="row-fluid box-c-btn">
+					<form action="http://app.forheroes.org.ua:8082/api/donate" method="POST">
+						<div class="span6">
+							<div class="cur-input">
+								<span class="cur-input__t">{{currency}}</span>
+
+								<div class="cur-input__w">
+									<input class="cur-input__num" type="number" name="amount" value="{{default_amount}}">
+								</div>
+							</div>
+						</div>
+						<div class="span6">
+							<button class="btn">Сплатити</button>
+							<p class="btn-sub-t">
+								<a class="js-showDes" href="#">Куди підуть кошти?</a>
+							</p>
+
+							<input type="hidden" name="project_id" value="{{id}}">
+						</div>
+					</form>
+				</div>
+			</div>
+			
+			<p class="proj-b__des js-destination">{{destination}}</p>
+			<div class="galery-b js-galery">
+			{{#each images}}<div class="galery-b__i"> {{!Fix display blox (inline-block)}}
+					<a target="_blank" title="{{image_description}}" href="http://app.forheroes.org.ua:8082/images/{{image_name}}" data-gallery="">
+						<img width="240" height="180" alt="{{image_description}}" src="http://app.forheroes.org.ua:8082/images/{{image_tmb_name}}" draggable="false">
+					</a>
+				</div>{{/each}}
+			</div>
+		</section>
+	</div>
+</li>
+{{/if}}
+{{/each}}

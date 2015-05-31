@@ -25,10 +25,20 @@ module.exports = function (grunt) {
 		// 		src: [ 'js/script.js' ]  //какие файлы надо проверять
 		// 	}
 		// },
+		handlebars: {
+			compile: {
+				options: {
+					namespace: "JST"
+				},
+				files: {
+					'js/appTemplates.js': 'templates/*.hbs'
+				}
+			}
+		},
 
 	    concat: {
 	    	dist: {
-	    		src: ['js/script.js', 'js/jquery.flexslider-min.js', 'js/jquery.blueimp-gallery.min.js', 'js/blueimp-gallery.min.js', 'js/handlebars-v3.0.3.js'],
+	    		src: ['js/script.js', 'js/jquery.flexslider-min.js', 'js/jquery.blueimp-gallery.min.js', 'js/blueimp-gallery.min.js', 'js/handlebars-v3.0.3.js', 'js/appTemplates.js'],
 	    		dest: 'js/build.js'
 	    	}
 	    },
@@ -148,6 +158,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-compress');
+	grunt.loadNpmTasks('grunt-contrib-handlebars');
 
-	grunt.registerTask('default', ['concat', 'uglify', 'less', 'autoprefixer', 'cssmin', 'imagemin', 'clean', 'watch']);
+	grunt.registerTask('default', ['handlebars', 'concat', 'uglify', 'less', 'autoprefixer', 'cssmin', 'imagemin', 'clean', 'watch']);
 };
