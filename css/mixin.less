@@ -1,0 +1,109 @@
+.rotate(@degrees) {
+  -webkit-transform: rotate(@degrees);
+     -moz-transform: rotate(@degrees);
+      -ms-transform: rotate(@degrees);
+          transform: rotate(@degrees);
+}
+.scale(@ratio) {
+  -webkit-transform: scale(@ratio);
+     -moz-transform: scale(@ratio);
+      -ms-transform: scale(@ratio);
+          transform: scale(@ratio);
+}
+.translate(@x, @y) {
+  -webkit-transform: translate(@x, @y);
+     -moz-transform: translate(@x, @y);
+      -ms-transform: translate(@x, @y);
+          transform: translate(@x, @y);
+}
+.skew(@x, @y) {
+  -webkit-transform: skew(@x, @y);
+     -moz-transform: skew(@x, @y);
+      -ms-transform: skewX(@x) skewY(@y); // See https://github.com/twbs/bootstrap/issues/4885
+          transform: skew(@x, @y);
+  -webkit-backface-visibility: hidden; // See https://github.com/twbs/bootstrap/issues/5319
+}
+.translate3d(@x, @y, @z) {
+  -webkit-transform: translate3d(@x, @y, @z);
+     -moz-transform: translate3d(@x, @y, @z);
+          transform: translate3d(@x, @y, @z);
+}
+.transition(@transition) {
+	-webkit-transition: @transition;  
+	   -moz-transition: @transition;
+		-ms-transition: @transition; 
+			transition: @transition;  
+}
+.transform(@string) {
+	-webkit-transform: @string;
+	   -moz-transform: @string;
+		-ms-transform: @string;
+		 	transform: @string;
+}
+.transition-transform(@property) {
+	-webkit-transition: -webkit-transform @property;
+			transition: transform @property;  
+}
+.box-sizing(@boxmodel) {
+  -webkit-box-sizing: @boxmodel;
+     -moz-box-sizing: @boxmodel;
+          box-sizing: @boxmodel;
+}
+.box-shadow(@string) {
+	box-shadow: @string;
+}
+
+.check( @border: 1px, @color: @dark, @size: 12px, @rotate: -45deg, @uneven: false ) {
+	border-left: @border solid @color;
+    border-bottom: @border solid @color;
+    
+    width: @size;
+    height: @size;
+
+	& when (@uneven = true) {
+		height: @size*0.5;
+	}
+    .rotate(@rotate);
+	}	
+
+.clearfix() {
+	&:before,
+	&:after {
+		content: " "; // 1
+		display: table; // 2
+		}
+	&:after {
+		clear: both;
+		}
+		
+	}
+
+.box() {
+	background-color: #fff;
+	}
+
+.resetListStyle() {
+	padding-left: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+
+	.ie-lt9 & {
+        margin-left: 0 !important;
+        }
+
+	& > li {
+		list-style: none;
+		}
+
+	}
+
+.wrap() {
+	width: 960px;
+	margin: 0 auto;
+
+	@media @t {
+		width: auto;
+		margin: 0 @MobileIndent;
+		}
+
+	}

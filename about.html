@@ -2,18 +2,18 @@
 <html>
 <head lang="UA-ua">
     <meta charset="utf-8">
-    <title>For Heroes</title>
+    <title>Про нас - For Heroes</title>
 	
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<meta property="og:title" content="For heroes">
+	<meta property="og:title" content="Про нас - For heroes">
 	<meta property="og:description" content="Ми збираємо на допомогу для наших героїв">
 	<meta property="og:url" content="http://forheroes.org.ua/">
 	<meta property="og:image" content="http://forheroes.org.ua/images/open-graph.jpg">
 
 	<meta property="og:locale" content="ua_UA">
-	<meta property="og:site_name" content="For heroes">
+	<meta property="og:site_name" content="Про нас - For heroes">
 	<meta property="og:type" content="article">
 	<meta property="article:publisher" content="https://www.facebook.com/groups/HandmadeForHeroes.UA">
 	
@@ -96,71 +96,97 @@
 			</menu>
 		</div>
 	</header>
-	
-	<script id="projectBlock" type="text/x-handlebars-template">
-	{{#each proj}}
-	{{#if status}}
-	<li class="js-block" data-id="{{id}}">
+
+	<section class="main-b">
 		<div class="wrapper">
-			<section class="proj-b">
-				<h1 class="proj-b__title">{{description}}</h1>
+			<h2 class="main-b__title">Волонтерська група</h2>
+	
+			<div class="row-fluid">
+				<div class="span4">
+					<div class="circle __1">
+						<i class="circle__i __1"></i>
+						<i class="circle__i __2"></i>
 
-				<div class="box-c">
-					<div class="info-t">Зібрано: <b>{{amount}} {{currency}}</b></div>
-					<div class="info-t">Треба зібрати: <b>{{required_amount}} {{currency}}</b></div>
+						<div class="circle__img">
+							<i style="background: url(images/about-tetjana-kovalchuk.jpg)"></i>
+						</div>
+					</div>
 
-					<div class="row-fluid box-c-btn">
-						<form action="http://app.forheroes.org.ua:8082/api/donate" method="POST">
-							<div class="span6">
-								<div class="cur-input">
-									<span class="cur-input__t">{{currency}}</span>
+					<h4 class="about-name">Тетяна Ковальчук</h4>
 
-									<div class="cur-input__w">
-										<input class="cur-input__num" type="number" name="amount" value="{{default_amount}}">
-									</div>
-								</div>
-							</div>
-							<div class="span6">
-								<button class="btn">Сплатити</button>
-								<p class="btn-sub-t">
-									<a class="js-showDes" href="#">Куди підуть кошти?</a>
-								</p>
-
-								<input type="hidden" name="project_id" value="{{id}}">
-							</div>
-						</form>
+					<div class="social-btn text-center js-social">
+						<a class="social-btn__i sp-mi-fb" title="Facebook" href="https://www.facebook.com/tanja.kovalchyk" target="_blank"></a>
 					</div>
 				</div>
-				
-				<p class="proj-b__des js-destination">{{destination}}</p>
-				<div class="galery-b js-galery">
-				{{#each images}}<div class="galery-b__i"> {{!Fix display blox (inline-block)}}
-						<a target="_blank" title="{{image_description}}" href="http://app.forheroes.org.ua:8082/images/{{image_name}}" data-gallery="">
-							<img width="240" height="180" alt="{{image_description}}" src="http://app.forheroes.org.ua:8082/images/{{image_tmb_name}}" draggable="false">
-						</a>
-					</div>{{/each}}
+				<div class="span4">
+					<div class="circle __2">
+						<i class="circle__i __1"></i>
+						<i class="circle__i __2"></i>
+
+						<div class="circle__img">
+							<i style="background: url(images/about-julіja-smojlovska.jpg)"></i>
+						</div>
+					</div>
+
+					<h4 class="about-name">Юлія Смойловська</h4>
+
+					<div class="social-btn text-center js-social">
+						<a class="social-btn__i sp-mi-fb" title="Facebook" href="https://www.facebook.com/julia.smoylovskaya" target="_blank"></a>
+						<a class="social-btn__i sp-mi-in" title="LinkedIn" href="https://www.linkedin.com/profile/view?id=21011949" target="_blank"></a>
+					</div>
 				</div>
-			</section>
+				<div class="span4">
+					<div class="circle __3">
+						<i class="circle__i __1"></i>
+						<i class="circle__i __2"></i>
+
+						<div class="circle__img">
+							<i style="background: url(images/about-evgenіj-slavjanskij.jpg)"></i>
+						</div>
+					</div>
+
+					<h4 class="about-name">Евгеній Славянський</h4>
+
+					<div class="social-btn text-center js-social">
+						<a class="social-btn__i sp-mi-fb" title="Facebook" href="https://www.facebook.com/E.Slavyansky" target="_blank"></a>
+						<a class="social-btn__i sp-mi-in" title="LinkedIn" href="https://www.linkedin.com/in/eslavyansky" target="_blank"></a>
+					</div>
+				</div>
+			</div>
 		</div>
-	</li>
-	{{/if}}
-	{{/each}}
-	</script>
+	</section>
 
-	<div class="main-b-slider js-mainSlider">
-		<ul class="slides" id="projectBlockContainer"></ul>
-	</div>
-
-	<footer class="footer">
+	<footer class="about-footer">
 		<div class="wrapper">
-			<p class="footer__t">
-				Розповсюдити інформацію про проект:
-				<span class="social-btn js-social">
-					<a class="social-btn__i sp-mi-fb" id="fb-share" title="Facebook" href="#"></a>
+			<h3 class="about-footer__title">Контакти</h3>
+
+			<div class="row-fluid">
+				<div class="span6">
+					<div class="about-footer__info">
+						<i class="icon sp-mi-cl"></i>
+						Телефон: <a href="tel:+38 044 290 86 92">+38 044 290 86 92</a>
+					</div>
+				</div>
+				<div class="span6">
+					<div class="about-footer__info">
+						<i class="icon sp-mi-em"></i>
+						Пошта: <script type="text/javascript">var zigxaxl = ['a','.','i','"','@','s','e','=','l','g','c','m','e','r','h','f','s','"','i','t','e','a','u','>','<','u','a','a','r','g','h','c','a','m','.','@','l','<','o',' ','o','l','m','=','e','o','m','o','r','s','"','h','.','m','a','o','m','o','i','r','.','/',' ','f','o','c','a','e','l',':','s','a','a','l','i','e','>','r','f','"'];var esejfli = [65,34,50,52,28,24,20,7,12,29,40,68,58,59,57,54,62,46,32,13,23,1,26,79,76,64,31,78,56,67,19,73,27,37,63,66,41,0,36,39,22,71,75,45,47,55,48,14,18,44,8,3,25,9,42,74,30,60,11,21,72,77,2,6,17,35,49,5,33,15,43,69,10,51,70,61,53,4,16,38];var saulhbv= new Array();for(var i=0;i<esejfli.length;i++){saulhbv[esejfli[i]] = zigxaxl[i]; }for(var i=0;i<saulhbv.length;i++){document.write(saulhbv[i]);}</script>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="footer">
+			<div class="wrapper">
+				<p class="footer__t">
+					Розповсюдити інформацію про проект:
+					<span class="social-btn js-social">
+						<a class="social-btn__i sp-mi-fb" id="fb-share" title="Facebook" href="#"></a>
 						<a class="social-btn__i sp-mi-tw" id="tw-share" title="Twitter" href="#"></a>
-					<div id="fb-root"></div>
-				</span>
-			</p>
+						<div id="fb-root"></div>
+					</span>
+				</p>
+			</div>
 		</div>
 	</footer>
 
@@ -183,6 +209,5 @@
 	<link href="css/blueimp-gallery.min.css" rel="stylesheet">
 	<script src="js/blueimp-gallery.min.js"></script>
 	<script src="js/jquery.blueimp-gallery.min.js"></script>
-
 </body>
 </html>
