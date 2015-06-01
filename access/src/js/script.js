@@ -106,6 +106,10 @@ $(window).load(function() {
 			dataType: 'json', 
 			url: API, 
 			success: function (data) {
+				data.proj.sort(function() {
+					return (Math.round(Math.random())-0.5);
+				});
+
 				$('#projectBlockContainer').html( htmlData(data) );
 
 				/* Get start project */
