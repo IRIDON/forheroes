@@ -1,4 +1,4 @@
-var API = ( location.href.indexOf('forheroes.org.ua') == -1 ) ? 'data.json': 'http://app.forheroes.org.ua:8082/api/projects';
+var API = ( location.href.indexOf('forheroes.org.ua') == -1 ) ? '/data.json': 'http://app.forheroes.org.ua:8082/api/projects';
 
 var siteSlug = /[^\/]*\.html/.exec(location.href);
 var siteSlug = (siteSlug == null) ? '' : siteSlug;
@@ -10,38 +10,6 @@ var availableLanguage = [];
 var languageCookie = readCookie('language');
 
 $(document).ready(function() {
-	if ( $('#projectBlock').length ) {
-		$.ajax({ 
-			type: 'GET', 
-			dataType: 'json', 
-			url: API, 
-			success: function (data) {
-				var source   = $('#projectBlock').html();
-				var template = Handlebars.compile(source);
-				var html = template(data);
-
-				$('#projectBlockContainer').html(html);
-
-				/* Get start project */
-				var slideStart = 0;
-				var projectId = getUrlVars()['project_id'];
-
-				if (projectId != undefined) {
-					slideStart = $('.js-mainSlider .slides').children('li[data-id="'+projectId+'"]').index();
-				}
-
-				/* Create slider */
-				$('.js-mainSlider').flexslider({
-					animation: "slide",
-					slideshow: true,
-					slideshowSpeed: 7000,
-					pauseOnHover: true,
-					animationLoop: false,
-					startAt: slideStart
-				});
-			} 
-		});
-	}
 
 	$('#languageSwitcher').find('a').each(function(index, el) {
 		availableLanguage.push( $(this).data('id') );
@@ -49,33 +17,33 @@ $(document).ready(function() {
 
 /* LANGUAGE
    ========================================================================== */
- //    siteFlag = (siteFlag == null) ? availableLanguage[0] : siteFlag.toString().replace(/\//g,'');
+    siteFlag = (siteFlag == null) ? availableLanguage[0] : siteFlag.toString().replace(/\//g,'');
 
-	// if ( languageCookie == null ) {
-	// 	var navLanguage = navigator.language;
+	if ( languageCookie == null ) {
+		var navLanguage = navigator.language;
 
-	// 	if ( $.inArray(navLanguage, availableLanguage) != -1 ) {
-	// 		languageSwitcher(navLanguage);
-	// 	} else {
-	// 		createCookie('language', availableLanguage[0], 30);
-	// 	}
-	// } else {
-	// 	languageSwitcher(languageCookie);
-	// }
+		if ( $.inArray(navLanguage, availableLanguage) != -1 ) {
+			languageSwitcher(navLanguage);
+		} else {
+			createCookie('language', availableLanguage[0], 30);
+		}
+	} else {
+		languageSwitcher(languageCookie);
+	}
 	
 
-	// $('#languageSwitcher').on('click', 'a', function(event) {
-	// 	event.preventDefault();
+	$('#languageSwitcher').on('click', 'a', function(event) {
+		event.preventDefault();
 
-	// 	if ( !$(this).hasClass('on') ) {
-	// 		languageSwitcher( $(this).data('id') );
-	// 	}
+		if ( !$(this).hasClass('on') ) {
+			languageSwitcher( $(this).data('id') );
+		}
 
-	// 	$(this).parent().children('a').removeClass('on');
-	// 	$(this).addClass('on');
-	// });
+		$(this).parent().children('a').removeClass('on');
+		$(this).addClass('on');
+	});
 
-	// setFlagSwitcher();
+	setFlagSwitcher();
 /* LANGUAGE
    ========================================================================== */
 
@@ -130,6 +98,37 @@ $(document).ready(function() {
 });
 
 $(window).load(function() {
+	var htmlData = this["JST"]["access/src/handlebars/project.hbs"];
+
+	if ( $('#projectBlockContainer').length ) {
+		$.ajax({ 
+			type: 'GET', 
+			dataType: 'json', 
+			url: API, 
+			success: function (data) {
+				$('#projectBlockContainer').html( htmlData(data) );
+
+				/* Get start project */
+				var slideStart = 0;
+				var projectId = getUrlVars()['project_id'];
+
+				if (projectId != undefined) {
+					slideStart = $('.js-mainSlider .slides').children('li[data-id="'+projectId+'"]').index();
+				}
+
+				/* Create slider */
+				$('.js-mainSlider').flexslider({
+					animation: "slide",
+					slideshow: true,
+					slideshowSpeed: 7000,
+					pauseOnHover: true,
+					animationLoop: false,
+					startAt: slideStart
+				});
+			} 
+		});
+	}
+
 	$('body').removeClass('load');
 
 	$('#fb-share').on('click', function(event) {

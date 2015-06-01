@@ -6,6 +6,8 @@
 @import "normalize.less";
 @import "grid.less";
 
+@import "blueimp-gallery";
+
 body {
 	background-color: lighten(@blue, 30%); 
     font-family: @fontFamilyTin;
@@ -104,7 +106,7 @@ a {
 				margin-left: 36px;
 				}
 
-			a {
+			& > a {
 				position: relative;
 
 				&:before {
@@ -136,7 +138,7 @@ a {
 
 				}
 
-			a {
+			& > a {
 				color: inherit;
 				text-decoration: none;
 				.transition(color 250ms);
@@ -174,6 +176,25 @@ a {
 		    & + * {
 	    		margin-top: 3px * 2;
 		    	}
+
+			}
+
+		}
+
+	.language {
+		a {
+			display: inline-block;
+			opacity: 0.5;
+			transition: opacity 150ms;
+
+			& + & {
+				margin-left: 2px;
+				}
+
+			&.on,
+			&:hover {
+				opacity: 1;
+				}
 
 			}
 
@@ -919,6 +940,21 @@ a {
 	height: @spArowHeight;
 	}
 
+@spFlagIconWidth: 14px;
+@spFlagIconHeight: 11px;
+[class^="sp-flag-"],
+[class*="sp-flag-"] {
+	&::before {
+		width: @spFlagIconWidth;
+		height: @spFlagIconHeight;
+		}
+
+	}
+.sp-flag-ua:before {background-position: 0 * -@spFlagIconWidth -(@spFlagHeight+@spMediumIconSize+@spArowHeight)}
+.sp-flag-pl:before {background-position: 1 * -@spFlagIconWidth -(@spFlagHeight+@spMediumIconSize+@spArowHeight)}
+.sp-flag-en:before {background-position: 2 * -@spFlagIconWidth -(@spFlagHeight+@spMediumIconSize+@spArowHeight)}
+
+
 .hidden {
 	display: none;
 	}
@@ -1089,5 +1125,3 @@ a {
   transform: rotate(900deg);
   }
 }
-
-@import "blueimp-gallery.min.css";
