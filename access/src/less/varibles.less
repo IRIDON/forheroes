@@ -10,7 +10,7 @@
 
 @mobileScreen: 640px;
 @tableScreen: 768px;
-@tableDesktop: 960px;
+@desktopScreen: 960px;
 
 @MobileIndent: 10px;
 
@@ -25,6 +25,6 @@
               ~"only screen and (min-device-pixel-ratio: 1.5)";
 
 @m:  ~"only screen and (max-width: @{mobileScreen})";
-@t:  ~"only screen and (max-width: @{tableDesktop})";
-@o-t:  ~"only screen and (min-width: @{mobileScreen}) and (max-width: @{tableDesktop})";
-@d:  ~"only screen and (max-width: @{tableDesktop})";
+@t:  ~"only screen and (max-width: @{desktopScreen})";
+@o-t:  ~"only screen and (min-width: @{mobileScreen}) and (max-width: @{desktopScreen})";
+@d:  ~"only screen and (max-width: @{desktopScreen})";

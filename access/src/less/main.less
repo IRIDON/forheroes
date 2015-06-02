@@ -35,19 +35,16 @@ a {
 
 /* Project
    ========================================================================== */
-.wrap() {
-	width: @tableDesktop;
+.wrapper {
+	width: @desktopScreen;
 	margin: 0 auto;
+	.clearfix;
 
 	@media @t {
 		width: auto;
 		margin: 0 @MobileIndent;
 		}
 
-	}
-	
-.wrapper {
-	.wrap();
 	}
 
 .head {
@@ -196,6 +193,21 @@ a {
 				opacity: 1;
 				}
 
+			}
+
+		@media @m {
+			display: none;
+			}
+
+		}
+
+	.language-mobile {
+		display: none;
+		width: 100%;
+		color: #000;
+
+		@media @m {
+			display: block;
 			}
 
 		}
@@ -525,9 +537,18 @@ a {
 
 	&-direction-nav {
 		.resetListStyle;
+		width: @desktopScreen;
 
+		position: absolute; top: 330px; left: 50%;
+		margin-left: -@desktopScreen / 2;
+
+		@media @t {
+			width: auto;
+			right: @MobileIndent; left: @MobileIndent;
+			margin-left: 0;
+			}
 		@media @m {
-			display: none;
+			top: 160px;
 			}
 
 		}
@@ -550,10 +571,8 @@ a {
 				display: block;
 				width: 100%;
 				height: 100%;
-				background-color: fade(@blue, 30%);
 				text-indent: -200%;
 				overflow: hidden;
-				.transition(background-color 300ms);
 
 				&:before {
 					@size: 24px;
@@ -562,11 +581,16 @@ a {
 					margin-top: -@size / 2;
 					margin-left: -@size / 1.6;
 					content: "";
-					.check(3px, #fff, @size, 45deg);
+					.check(2px, @blue, @size, 45deg);
+					.transition(color 300ms);
 					}
 
 				&:hover {
-					background-color: fade(@blue, 20%);
+					&:before {
+						border-bottom: 2px solid fade(@blue, 20%);
+						border-left: 2px solid fade(@blue, 20%);
+						}
+
 					}
 
 				}

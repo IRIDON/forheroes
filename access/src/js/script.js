@@ -10,8 +10,9 @@ var availableLanguage = [];
 var languageCookie = readCookie('language');
 
 $(document).ready(function() {
+	var $blockLanguage = $('#languageSwitcher');
 
-	$('#languageSwitcher').find('a').each(function(index, el) {
+	$blockLanguage.find('a').each(function(index, el) {
 		availableLanguage.push( $(this).data('id') );
 	});
 
@@ -32,7 +33,7 @@ $(document).ready(function() {
 	}
 	
 
-	$('#languageSwitcher').on('click', 'a', function(event) {
+	$blockLanguage.on('click', 'a', function(event) {
 		event.preventDefault();
 
 		if ( !$(this).hasClass('on') ) {
@@ -44,9 +45,29 @@ $(document).ready(function() {
 	});
 
 	setFlagSwitcher();
+
+	/* Create mobile switcher language */
+	var languageSwitcherMobile = [];
+
+	$blockLanguage.find('a').each(function(index, el) {
+		languageSwitcherMobile.push( [$(this).data('id'), $(this).attr('title')] )
+	});
+
+	$blockLanguage.after('<select class="language-mobile" id="languageSwitcherMobile"></select>');
+
+	$.each(languageSwitcherMobile, function(index, val) {
+		var select = (document.documentElement.lang == val[0]) ? 'selected' : '';
+
+		$blockLanguage.next().append('<option '+select+' value="'+val[0]+'">'+val[1]+'</option>')
+	});
+
+	$('#languageSwitcherMobile').change(function(event) {
+		languageSwitcher( $(this).val() );
+	});
 /* LANGUAGE
    ========================================================================== */
-
+   
+	/* Tootle mobile menu */
 	$('#toogleMenuBtn').on('click', function(event) {
 		event.preventDefault();
 
