@@ -1,0 +1,10 @@
+{
+	"name": "forheroes",
+	"version": "0.2.1",
+	"main": "index.html",
+	"dependencies": {
+		"flexslider": "latest",
+		"blueimp-gallery": "latest",
+		"handlebars": "latest"
+	}
+}

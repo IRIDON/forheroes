@@ -1,12 +1,120 @@
 var API = ( location.href.indexOf('forheroes.org.ua') == -1 ) ? '/data.json': 'http://app.forheroes.org.ua:8082/api/projects';
 
 var siteSlug = /[^\/]*\.html/.exec(location.href);
-var siteSlug = (siteSlug == null) ? '' : siteSlug;
+	siteSlug = (siteSlug === null) ? '' : siteSlug;
 
 var siteHost = location.href.replace(siteSlug, '');
 var siteFlag = /\/[a-z][a-z]\//.exec(siteHost);
-var siteHost = siteHost.replace(siteFlag, '/');
+	siteHost = siteHost.replace(siteFlag, '/');
 var availableLanguage = [];
+
+var curentFlag = (siteFlag === null) ? '' : siteFlag[0];
+var currentUrl = siteHost+curentFlag.replace('/', '')+siteSlug;
+
+function createCookie(name,value,days) {
+	var expires = '';
+
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime()+(days*24*60*60*1000));
+        expires = "; expires="+date.toGMTString();
+    } else {
+		expires = "";
+    }
+    document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') {
+        	c = c.substring(1,c.length);
+        }
+        if (c.indexOf(nameEQ) === 0) {
+        	return c.substring(nameEQ.length,c.length);
+        }
+    }
+    return null;
+}
+
+function eraseCookie(name) {
+    createCookie(name,"",-1);
+}
+
+/* getUrlVars, USAGE: (example.com/index?var1=2&var2=2), getUrlVars()["var1"]
+   ========================================================================== */
+function getUrlVars() {
+    var vars = [];
+    var el;
+    var elems = decodeURI(window.location.href).slice(window.location.href.indexOf('?') + 1).split('&');
+    
+    for(var i = 0; i < elems.length; i++) {
+        el = elems[i].split('=');
+        vars.push(el[1]);
+        vars[el[0]] = el[1];
+    }
+    
+    return vars;
+}
+
+/* getInternetExplorerVersion
+   ========================================================================== */
+function getInternetExplorerVersion() {
+    var rv = -1; // Return value assumes failure.
+    var ua = null;
+    var re = null;
+
+    if (navigator.appName == 'Microsoft Internet Explorer') {
+        ua = navigator.userAgent;
+        re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+    }
+    if (re.exec(ua) !== null) {
+        rv = parseFloat( RegExp.$1 );
+    }
+
+    return rv;
+}
+
+function languageSwitcher(id) {
+    if ( siteFlag != id ) {
+        createCookie('language', id, 30);
+
+        id = ( id == availableLanguage[0] ) ? '' : id+'/';
+
+        document.location.href = siteHost+id+siteSlug;
+    }
+}
+
+function setFlagSwitcher() {
+	$('#languageSwitcher a').each(function() {
+		var itemId = $(this).data('id');
+
+		if ( siteFlag == itemId ) {
+			$(this).addClass('on');
+		} else {
+			$(this).removeClass('on');
+		}
+	});
+}
+
+function SendInfoGA(group, lable, metod) {
+	metod = metod||'Click';
+
+    ga('send', 'event', group, metod, lable);
+}
+
+function urlHref() {
+	var urlHref = currentUrl;
+
+	urlHref += ( $('.js-mainSlider').length === 1 ) ? $('.js-mainSlider').find('.flex-active-slide').data('id') : '';
+
+	console.log(urlHref)
+
+	return urlHref
+}
+
 var languageCookie = readCookie('language');
 
 $(document).ready(function() {
@@ -18,9 +126,9 @@ $(document).ready(function() {
 
 /* LANGUAGE
    ========================================================================== */
-    siteFlag = (siteFlag == null) ? availableLanguage[0] : siteFlag.toString().replace(/\//g,'');
+    siteFlag = (siteFlag === null) ? availableLanguage[0] : siteFlag.toString().replace(/\//g,'');
 
-	if ( languageCookie == null ) {
+	if ( languageCookie === null ) {
 		var navLanguage = navigator.language;
 
 		if ( $.inArray(navLanguage, availableLanguage) != -1 ) {
@@ -50,7 +158,7 @@ $(document).ready(function() {
 	var languageSwitcherMobile = [];
 
 	$blockLanguage.find('a').each(function(index, el) {
-		languageSwitcherMobile.push( [$(this).data('id'), $(this).attr('title')] )
+		languageSwitcherMobile.push( [$(this).data('id'), $(this).attr('title')] );
 	});
 
 	$blockLanguage.after('<select class="language-mobile" id="languageSwitcherMobile"></select>');
@@ -58,7 +166,7 @@ $(document).ready(function() {
 	$.each(languageSwitcherMobile, function(index, val) {
 		var select = (document.documentElement.lang == val[0]) ? 'selected' : '';
 
-		$blockLanguage.next().append('<option '+select+' value="'+val[0]+'">'+val[1]+'</option>')
+		$blockLanguage.next().append('<option '+select+' value="'+val[0]+'">'+val[1]+'</option>');
 	});
 
 	$('#languageSwitcherMobile').change(function(event) {
@@ -73,7 +181,7 @@ $(document).ready(function() {
 
 		$(this).toggleClass('on');
 
-		SendInfoGA('MobleMenu', ($(this).hasClass('on') ? 'show':'hidden' ) );
+		new SendInfoGA('MobleMenu', ($(this).hasClass('on') ? 'show':'hidden' ) );
 	});
 
 	for (var i = 0; i < $('.js-headMenu a').length; i++) {
@@ -86,7 +194,7 @@ $(document).ready(function() {
 		if ( loc.indexOf(href) != -1 ) {
 			item.classList.add('active');
 		}
-	};
+	}
 
 	$(document).on('click', '.js-showDes', function(event) {
 		event.preventDefault();
@@ -95,26 +203,26 @@ $(document).ready(function() {
 
 		var id = $(this).parents('.js-block').data('id');
 
-		SendInfoGA('projectDestination', 'project-'+id );
+		new SendInfoGA('projectDestination', 'project-'+id );
 	});
 
 	$('.js-mainSlider').on('click', 'button', function() {
 		var id = $(this).parents('.js-block').data('id');
 		var price = $(this).parents('.js-block').find('input[name=amount]').val();
 
-		SendInfoGA('projectSubmit', 'project-'+id, price);
+		new SendInfoGA('projectSubmit', 'project-'+id, price);
 	});
 
 	$('.js-galery').on('click', 'a', function() {
 		var id = $(this).parent('.js-block').data('id');
 
-		SendInfoGA('projectGalery', 'project-'+id);
+		new SendInfoGA('projectGalery', 'project-'+id);
 	});
 
 	$('.js-social').on('click', 'a', function() {
 		var val = $(this).attr('title');
 
-		SendInfoGA('socialShare-'+val, $('.js-mainSlider').find('.flex-active-slide').data('id') );
+		new SendInfoGA('socialShare-'+val, $('.js-mainSlider').find('.flex-active-slide').data('id') );
 	});
 });
 
@@ -137,7 +245,7 @@ $(window).load(function() {
 				var slideStart = 0;
 				var projectId = getUrlVars()['project_id'];
 
-				if (projectId != undefined) {
+				if (projectId !== undefined) {
 					slideStart = $('.js-mainSlider .slides').children('li[data-id="'+projectId+'"]').index();
 				}
 
@@ -156,6 +264,8 @@ $(window).load(function() {
 
 	$('body').removeClass('load');
 
+	// var FB = FB||undefined;
+
 	$('#fb-share').on('click', function(event) {
 		event.preventDefault();
 
@@ -164,7 +274,7 @@ $(window).load(function() {
 		postToFeed(
 			block.find('h1').text(),
 			block.find('.js-destination').text(),
-			window.location.origin+'?project_id='+block.data('id'),
+			urlHref()+'?project_id='+block.data('id'),
 			block.find('img').eq(0).parent('a').attr('href')
 		);
 	});
@@ -193,8 +303,8 @@ $(window).load(function() {
 			name: title,
 			description: desc
 		};
-		function callback(response){
-			console.log(response)
+		function callback(response) {
+			// console.log(response);
 		}
 		FB.ui(obj, callback);
 	}
@@ -204,96 +314,11 @@ $(window).load(function() {
 
 		var block = $('.js-mainSlider').find('.flex-active-slide');
 
- 		url  = 'http://twitter.com/share?';
-        url += 'text='      + encodeURIComponent(block.find('h1').text());
-        url += '&url='      + encodeURIComponent(window.location.origin+'?project_id='+block.data('id'));
-        url += '&counturl=' + encodeURIComponent(window.location.origin+'?project_id='+block.data('id'));
+ 		var url  = 'http://twitter.com/share?';
+        url += 'text='      + encodeURIComponent( block.find('h1').text() );
+        url += '&url='      + encodeURIComponent( urlHref() );
+        url += '&counturl=' + encodeURIComponent( urlHref() );
 
         window.open(url,'','toolbar=0,status=0,width=626,height=436');
 	});
 });
-
-function createCookie(name,value,days) {
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime()+(days*24*60*60*1000));
-        var expires = "; expires="+date.toGMTString();
-    }
-    else var expires = "";
-    document.cookie = name+"="+value+expires+"; path=/";
-};
-
-function readCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-};
-
-function eraseCookie(name) {
-    createCookie(name,"",-1);
-};
-
-/* getUrlVars, USAGE: (example.com/index?var1=2&var2=2), getUrlVars()["var1"]
-   ========================================================================== */
-function getUrlVars() {
-    vars = [];
-    var el;
-    var elems = unescape(window.location.href).slice(window.location.href.indexOf('?') + 1).split('&');
-    
-    for(var i = 0; i < elems.length; i++) {
-        el = elems[i].split('=');
-        vars.push(el[1]);
-        vars[el[0]] = el[1];
-    };
-    
-    return vars;
-};
-
-/* getInternetExplorerVersion
-   ========================================================================== */
-function getInternetExplorerVersion() {
-    var rv = -1; // Return value assumes failure.
-
-    if (navigator.appName == 'Microsoft Internet Explorer') {
-        var ua = navigator.userAgent;
-        var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
-    if (re.exec(ua) != null)
-        rv = parseFloat( RegExp.$1 );
-    };
-
-    return rv;
-};
-
-function languageSwitcher(id) {
-    if ( siteFlag != id ) {
-        createCookie('language', id, 30);
-
-        var id = ( id == availableLanguage[0] ) ? '' : id+'/';
-
-        document.location.href = siteHost+id+siteSlug;
-    }
-}
-
-function setFlagSwitcher() {
-	$('#languageSwitcher a').each(function() {
-		var itemId = $(this).data('id');
-
-		if ( siteFlag == itemId ) {
-			$(this).addClass('on')
-		} else {
-			$(this).removeClass('on');
-		}
-	});
-}
-
-function SendInfoGA(group, lable, metod) {
-    var metod = metod||'Click';
-    var lable = lable.replace(/\s/g,'');
-
-    ga('send', 'event', group, metod, lable);
-}

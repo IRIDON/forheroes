@@ -6,28 +6,51 @@ module.exports = function (grunt) {
 			'data.json': 'http://app.forheroes.org.ua:8082/api/projects'
 		},
 
-		// jshint: {
-		// 	options: {
-		// 		curly: true,
-		// 		eqeqeq: false,
-		// 		immed: true,
-		// 		latedef: true,
-		// 		newcap: true,
-		// 		noarg: true,
-		// 		sub: true,
-		// 		undef: true,
-		// 		eqnull: true,
-		// 		browser: true,
-		// 		globals: {
-		// 			jQuery: true,
-		// 			$: true,
-		// 			console: true
-		// 		}
-		// 	},
-		// 	'<%= pkg.name %>': {
-		// 		src: [ 'js/script.js' ]
-		// 	}
-		// },
+		jshint: {
+			options: {
+				curly: true,
+				eqeqeq: false,
+				immed: true,
+				latedef: true,
+				newcap: true,
+				noarg: true,
+				sub: true,
+				undef: false,
+				eqnull: false,
+				browser: true,
+				globals: {
+					jQuery: true,
+					$: true,
+					console: true
+				}
+			},
+			'<%= pkg.name %>': {
+				src: [ 'access/src/js/script.js' ]
+			}
+		},
+
+	    bower: {
+	        dev: {
+	            base: 'bower_components', /* the path to the bower_components directory */
+	            dest: 'bower_components',
+	            options: {
+	                checkExistence: true,
+	                debugging: true,
+	                paths: {
+	                    bowerDirectory: 'bower_components',
+	                    bowerrc: '.bowerrc',
+	                    bowerJson: 'bower.json'
+	                }
+	            }
+	        },
+	        flat: { /* flat folder/file structure */
+	            dest: 'access/bower',
+	            options: {
+	                debugging: true
+	            }
+	        }
+	    },
+
 		handlebars: {
 			compile: {
 				namespace: function(filename) {
@@ -44,10 +67,10 @@ module.exports = function (grunt) {
 	    concat: {
 	    	dist: {
 	    		src: [
-	    			'access/src/js/handlebars-v3.0.3.js',
+	    			'access/bower/handlebars.js',
 	    			'tmp/appTemplates.js',
-	    			'access/src/js/jquery.flexslider.js',
-	    			'access/src/js/blueimp-gallery.js',
+	    			'access/bower/jquery.flexslider.js',
+	    			'access/bower/blueimp-gallery.js',
 	    			'access/src/js/jquery.blueimp-gallery.js',
 	    			'access/src/js/script.js'
     			],
@@ -96,7 +119,7 @@ module.exports = function (grunt) {
 	    		},
 
 	    		files: {
-	    			'access/css/main.min.css' : ['tmp/main.css']
+	    			'access/css/main.min.css' : ['tmp/main.css', 'access/bower/blueimp-gallery.css']
 	    		}
 	    	}
 	    },
@@ -111,7 +134,7 @@ module.exports = function (grunt) {
 					{
 						expand: true,
 						cwd: 'access/src/img/',
-						src: ['**/*.{png,jpg,gif}'],
+						src: ['**/*.{png,jpg,gif,svg}'],
 						dest: 'access/img/'
 					}
 				]
@@ -225,7 +248,7 @@ module.exports = function (grunt) {
 	    watch: {
 	    	scripts: {
 		    	files: ['access/src/js/*.js'],
-		    	tasks: ['handlebars', 'concat', 'uglify', 'clean']
+		    	tasks: ['jshint', 'handlebars', 'concat', 'uglify', 'clean']
 	    	},
 	    	css: {
 		    	files: ['access/src/less/*.less'],
@@ -257,9 +280,10 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-curl');
 	grunt.loadNpmTasks('grunt-multi-language');
 	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('main-bower-files');
 
 	grunt.file.defaultEncoding = 'utf-8';
 	grunt.file.preserveBOM = true;
 
-	grunt.registerTask('default', ['handlebars', 'concat', 'uglify', 'less', 'autoprefixer', 'cssmin', 'imagemin', 'multi_language', 'sails-linker', 'copy', 'clean', 'watch']);
+	grunt.registerTask('default', ['jshint', 'handlebars', 'concat', 'uglify', 'less', 'autoprefixer', 'cssmin', 'imagemin', 'multi_language', 'sails-linker', 'copy', 'clean', 'watch']);
 };
