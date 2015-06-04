@@ -106,13 +106,11 @@ function SendInfoGA(group, lable, metod) {
 }
 
 function urlHref() {
-	var urlHref = currentUrl;
+	var href = currentUrl;
 
-	urlHref += ( $('.js-mainSlider').length === 1 ) ? $('.js-mainSlider').find('.flex-active-slide').data('id') : '';
-
-	console.log(urlHref)
-
-	return urlHref
+	href += ( $('.js-mainSlider').length === 1 ) ? $('.js-mainSlider').find('.flex-active-slide').data('id') : '';
+	
+	return href;
 }
 
 var languageCookie = readCookie('language');
