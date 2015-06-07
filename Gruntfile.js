@@ -64,6 +64,24 @@ module.exports = function (grunt) {
 			}
 		},
 
+		'compile-handlebars': {
+			allStatic: {
+				files: [{
+					src: 'access/src/handlebars/*.hbs',
+					dest: 'access/src/templates/handlebarsStatic.html'
+				}],
+				templateData: 'data.json'
+			},
+		},
+
+		includes: {
+			files: {
+				flatten: true,
+				src: ['access/src/templates/*.html'],
+				dest: 'tmp/html'
+			}
+		},
+
 	    concat: {
 	    	dist: {
 	    		src: [
@@ -72,6 +90,8 @@ module.exports = function (grunt) {
 	    			'access/bower/jquery.flexslider.js',
 	    			'access/bower/blueimp-gallery.js',
 	    			'access/src/js/jquery.blueimp-gallery.js',
+	    			// 'access/bower/bootstrap-modal.js',
+	    			// 'access/bower/bootstrap-modalmanager.js',
 	    			'access/src/js/script.js'
     			],
 	    		dest: 'tmp/build.js'
@@ -119,7 +139,11 @@ module.exports = function (grunt) {
 	    		},
 
 	    		files: {
-	    			'access/css/main.min.css' : ['tmp/main.css', 'access/bower/blueimp-gallery.css']
+	    			'access/css/main.min.css' : [
+	    				'tmp/main.css',
+	    				'access/bower/blueimp-gallery.css',
+	    				// 'access/bower/bootstrap-modal.css'
+    				]
 	    		}
 	    	}
 	    },
@@ -162,7 +186,7 @@ module.exports = function (grunt) {
 					appRoot: 'access/js/'
 				},
 				files: {
-					'src/templates/*.html': ['js/*.js']
+					'tmp/html/*.html': ['js/*.js']
 				},
 			},
 			addStyles: {
@@ -173,17 +197,31 @@ module.exports = function (grunt) {
 					appRoot: 'access/css/'
 				},
 				files: {
-					'src/templates/*.html': ['css/*.css']
+					'tmp/html/*.html': ['css/*.css']
 				},
 			}
 		},
+
+		// htmlmin: { - Disable htmlmin
+		// 	dist: {
+		// 		options: {
+		// 			removeComments: true,
+		// 			collapseWhitespace: true
+		// 		},
+		// 		files: {
+		// 			'tmp/html/index.html': 'tmp/html/index.html',
+		// 			'tmp/html/about.html': 'tmp/html/about.html',
+		// 			'tmp/html/handmade.html': 'tmp/html/handmade.html',
+		// 		}
+		// 	}
+		// },
 
 	    multi_language: {
 	        main: {
 	          resources: 'access/src/lang/',
 	          options: {
 	            tag: '{{ }}',
-	            src: 'access/src/templates/index.html',
+	            src: 'tmp/html/index.html',
 	            dest: 'tmp'
 	          }
 	        },
@@ -191,7 +229,7 @@ module.exports = function (grunt) {
 	          resources: 'access/src/lang/',
 	          options: {
 	            tag: '{{ }}',
-	            src: 'access/src/templates/about.html',
+	            src: 'tmp/html/about.html',
 	            dest: 'tmp'
 	          }
 	        },
@@ -199,7 +237,7 @@ module.exports = function (grunt) {
 	          resources: 'access/src/lang/',
 	          options: {
 	            tag: '{{ }}',
-	            src: 'access/src/templates/handmade.html',
+	            src: 'tmp/html/handmade.html',
 	            dest: 'tmp'
 	          }
 	        }
@@ -241,7 +279,7 @@ module.exports = function (grunt) {
 
 		clean : {
 		    yourTarget : {
-		        src : ['tmp/*']
+		        src : ['tmp/*', 'access/src/templates/handlebarsStatic.html']
 		    }
 		},
 
@@ -256,7 +294,7 @@ module.exports = function (grunt) {
 	    	},
 	    	html: {
 		    	files: ['access/src/templates/*.html'],
-		    	tasks: ['multi_language', 'sails-linker', 'copy']
+		    	tasks: ['compile-handlebars', 'includes', 'multi_language', 'sails-linker', 'copy']
 	    	},
 	    	img: {
 		    	files: ['access/src/img/*.{png,jpg,gif}'],
@@ -281,9 +319,12 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-multi-language');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('main-bower-files');
+	grunt.loadNpmTasks('grunt-compile-handlebars');
+	grunt.loadNpmTasks('grunt-includes');
+	// grunt.loadNpmTasks('grunt-contrib-htmlmin'); - Disable htmlmin
 
 	grunt.file.defaultEncoding = 'utf-8';
 	grunt.file.preserveBOM = true;
 
-	grunt.registerTask('default', ['jshint', 'handlebars', 'concat', 'uglify', 'less', 'autoprefixer', 'cssmin', 'imagemin', 'multi_language', 'sails-linker', 'copy', 'clean', 'watch']);
+	grunt.registerTask('default', ['jshint', 'handlebars', 'compile-handlebars', 'includes', 'concat', 'uglify', 'less', 'autoprefixer', 'cssmin', 'imagemin', 'multi_language', 'sails-linker', 'copy', 'clean', 'watch']);
 };

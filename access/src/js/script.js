@@ -108,9 +108,29 @@ function SendInfoGA(group, lable, metod) {
 function urlHref() {
 	var href = currentUrl;
 
-	href += ( $('.js-mainSlider').length === 1 ) ? $('.js-mainSlider').find('.flex-active-slide').data('id') : '';
+	href += ( $('.js-mainSlider').length === 1 ) ? '?project_id='+$('.js-mainSlider').find('.flex-active-slide').data('id') : '';
 	
 	return href;
+}
+
+function createMainSlider() {
+	/* Get start project */
+	var slideStart = 0;
+	var projectId = getUrlVars()['project_id'];
+
+	if (projectId !== undefined) {
+		slideStart = $('.js-mainSlider .slides').children('li[data-id="'+projectId+'"]').index();
+	}
+
+	/* Create slider */
+	$('.js-mainSlider').flexslider({
+		animation: "slide",
+		slideshow: true,
+		slideshowSpeed: 7000,
+		pauseOnHover: true,
+		animationLoop: false,
+		startAt: slideStart
+	});
 }
 
 var languageCookie = readCookie('language');
@@ -142,8 +162,12 @@ $(document).ready(function() {
 	$blockLanguage.on('click', 'a', function(event) {
 		event.preventDefault();
 
+		var id = $(this).data('id');
+
+		new SendInfoGA('switchLanguage', id);
+
 		if ( !$(this).hasClass('on') ) {
-			languageSwitcher( $(this).data('id') );
+			languageSwitcher(id);
 		}
 
 		$(this).parent().children('a').removeClass('on');
@@ -226,8 +250,9 @@ $(document).ready(function() {
 
 $(window).load(function() {
 	var htmlData = this["JST"]["access/src/handlebars/project.hbs"];
+	var $projectBlock = $('#projectBlockContainer');
 
-	if ( $('#projectBlockContainer').length ) {
+	if ( $projectBlock.length ) {
 		$.ajax({ 
 			type: 'GET', 
 			dataType: 'json', 
@@ -237,25 +262,9 @@ $(window).load(function() {
 					return (Math.round(Math.random())-0.5);
 				});
 
-				$('#projectBlockContainer').html( htmlData(data) );
+				$projectBlock.empty().html( htmlData(data) );
 
-				/* Get start project */
-				var slideStart = 0;
-				var projectId = getUrlVars()['project_id'];
-
-				if (projectId !== undefined) {
-					slideStart = $('.js-mainSlider .slides').children('li[data-id="'+projectId+'"]').index();
-				}
-
-				/* Create slider */
-				$('.js-mainSlider').flexslider({
-					animation: "slide",
-					slideshow: true,
-					slideshowSpeed: 7000,
-					pauseOnHover: true,
-					animationLoop: false,
-					startAt: slideStart
-				});
+				createMainSlider();
 			} 
 		});
 	}
@@ -311,9 +320,10 @@ $(window).load(function() {
 		event.preventDefault();
 
 		var block = $('.js-mainSlider').find('.flex-active-slide');
+		var text = block.find('h1').text()||$('title').text();
 
  		var url  = 'http://twitter.com/share?';
-        url += 'text='      + encodeURIComponent( block.find('h1').text() );
+        url += 'text='      + encodeURIComponent( text );
         url += '&url='      + encodeURIComponent( urlHref() );
         url += '&counturl=' + encodeURIComponent( urlHref() );
 

@@ -752,8 +752,16 @@ a {
 	background: @blue url("../img/footer-about.jpg") no-repeat 50% 0;
 	background-size: cover;
 	padding: @blockPadding 0;
+	
+	@media @t {
+		.row-fluid [class*=span] {
+			width: 100%;
+			float: none;
+			margin-left: 0;
+			}
 
-	@media @m {
+		}
+	@media @t {
 		padding: @blockPadding / 2 0;
 		}
 
@@ -765,7 +773,7 @@ a {
 		text-align: center;
 		text-transform: uppercase;
 
-		@media @m {
+		@media @t {
 			margin-bottom: 0.5em;
 			}
 
@@ -799,7 +807,7 @@ a {
 			vertical-align: middle;
 			margin-right: 20px;
 
-			@media @m {
+			@media @t {
 				display: block;
 				margin: 30px auto 10px;
 				}
@@ -815,7 +823,7 @@ a {
 	.footer {
 		margin-top: 150px;
 
-		@media @m {
+		@media @t {
 			margin-top: 20px;
 			}
 

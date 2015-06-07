@@ -5,6 +5,7 @@
 	"dependencies": {
 		"flexslider": "latest",
 		"blueimp-gallery": "latest",
-		"handlebars": "latest"
+		"handlebars": "latest",
+		"bootstrap-modal": "latest"
 	}
 }
