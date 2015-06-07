@@ -90,7 +90,7 @@ module.exports = function (grunt) {
 	    			'access/bower/jquery.flexslider.js',
 	    			'access/bower/blueimp-gallery.js',
 	    			'access/src/js/jquery.blueimp-gallery.js',
-	    			// 'access/bower/bootstrap-modal.js',
+	    			// 'access/bower/bootstrap-modal.js', - Disable modal
 	    			// 'access/bower/bootstrap-modalmanager.js',
 	    			'access/src/js/script.js'
     			],
@@ -142,7 +142,7 @@ module.exports = function (grunt) {
 	    			'access/css/main.min.css' : [
 	    				'tmp/main.css',
 	    				'access/bower/blueimp-gallery.css',
-	    				// 'access/bower/bootstrap-modal.css'
+	    				// 'access/bower/bootstrap-modal.css' - Disable modal
     				]
 	    		}
 	    	}

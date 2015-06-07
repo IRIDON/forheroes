@@ -24,7 +24,6 @@
     "commit": "d0f498c453206373cac8c124e53d5cf967617a71"
   },
   "_source": "git://github.com/jschr/bootstrap-modal.git",
-  "_target": "~2.2.6",
-  "_originalSource": "bootstrap-modal",
-  "_direct": true
+  "_target": "*",
+  "_originalSource": "bootstrap-modal"
 }
