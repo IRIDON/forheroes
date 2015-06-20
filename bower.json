@@ -6,6 +6,7 @@
 		"flexslider": "latest",
 		"blueimp-gallery": "latest",
 		"handlebars": "latest",
-		"bootstrap-modal": "latest"
+		"bootstrap-modal": "latest",
+		"jquery_lazyload": "latest"
 	}
 }

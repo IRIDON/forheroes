@@ -196,6 +196,8 @@ $(document).ready(function() {
 	});
 /* LANGUAGE
    ========================================================================== */
+
+   $('.js-galery img').lazy();
    
 	/* Tootle mobile menu */
 	$('#toogleMenuBtn').on('click', function(event) {
@@ -263,6 +265,8 @@ $(window).load(function() {
 				});
 
 				$projectBlock.empty().html( htmlData(data) );
+
+				$('.js-galery img').lazy();
 
 				createMainSlider();
 			} 

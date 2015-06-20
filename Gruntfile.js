@@ -90,6 +90,7 @@ module.exports = function (grunt) {
 	    			'access/bower/jquery.flexslider.js',
 	    			'access/bower/blueimp-gallery.js',
 	    			'access/src/js/jquery.blueimp-gallery.js',
+	    			'access/bower/jquery.lazy.min.js',
 	    			// 'access/bower/bootstrap-modal.js', - Disable modal
 	    			// 'access/bower/bootstrap-modalmanager.js',
 	    			'access/src/js/script.js'
@@ -326,5 +327,20 @@ module.exports = function (grunt) {
 	grunt.file.defaultEncoding = 'utf-8';
 	grunt.file.preserveBOM = true;
 
-	grunt.registerTask('default', ['jshint', 'handlebars', 'compile-handlebars', 'includes', 'concat', 'uglify', 'less', 'autoprefixer', 'cssmin', 'imagemin', 'multi_language', 'sails-linker', 'copy', 'clean', 'watch']);
+	grunt.registerTask('default', ['jshint',
+		'handlebars',
+		'compile-handlebars',
+		'includes',
+		'concat',
+		'uglify',
+		'less',
+		'autoprefixer',
+		'cssmin',
+		'imagemin',
+		'multi_language',
+		'sails-linker',
+		'copy',
+		'clean',
+		'watch'
+	]);
 };
