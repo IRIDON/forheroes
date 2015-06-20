@@ -6,29 +6,6 @@ module.exports = function (grunt) {
 			'data.json': 'http://app.forheroes.org.ua:8082/api/projects'
 		},
 
-		jshint: {
-			options: {
-				curly: true,
-				eqeqeq: false,
-				immed: true,
-				latedef: true,
-				newcap: true,
-				noarg: true,
-				sub: true,
-				undef: false,
-				eqnull: false,
-				browser: true,
-				globals: {
-					jQuery: true,
-					$: true,
-					console: true
-				}
-			},
-			'<%= pkg.name %>': {
-				src: [ 'access/src/js/script.js' ]
-			}
-		},
-
 	    bower: {
 	        dev: {
 	            base: 'bower_components', /* the path to the bower_components directory */
@@ -51,34 +28,28 @@ module.exports = function (grunt) {
 	        }
 	    },
 
-		handlebars: {
-			compile: {
-				namespace: function(filename) {
-					var names = filename.replace(/modules\/(.*)(\/\w+\.hbs)/, '$1');
-
-					return names.split('/').join('.');
-				},
-				files: {
-					'tmp/appTemplates.js': 'access/src/handlebars/*.hbs'
+/*  JS
+	========================================================================== */
+		jshint: {
+			options: {
+				curly: true,
+				eqeqeq: false,
+				immed: true,
+				latedef: true,
+				newcap: true,
+				noarg: true,
+				sub: true,
+				undef: false,
+				eqnull: false,
+				browser: true,
+				globals: {
+					jQuery: true,
+					$: true,
+					console: true
 				}
-			}
-		},
-
-		'compile-handlebars': {
-			allStatic: {
-				files: [{
-					src: 'access/src/handlebars/*.hbs',
-					dest: 'access/src/templates/handlebarsStatic.html'
-				}],
-				templateData: 'data.json'
 			},
-		},
-
-		includes: {
-			files: {
-				flatten: true,
-				src: ['access/src/templates/*.html'],
-				dest: 'tmp/html'
+			'<%= pkg.name %>': {
+				src: [ 'access/src/js/script.js' ]
 			}
 		},
 
@@ -111,6 +82,9 @@ module.exports = function (grunt) {
 	    	}
 	    },
 
+
+/*  STYLES
+	========================================================================== */
 		less: {
 			production: {
 				options: {
@@ -149,6 +123,8 @@ module.exports = function (grunt) {
 	    	}
 	    },
 
+/*  IMAGES
+	========================================================================== */
 		imagemin: {
 			dynamic: {
 				options: {
@@ -177,6 +153,39 @@ module.exports = function (grunt) {
 		// 		dest: 'assets/'
 		// 	}
 		// },
+
+/*  PAGES
+	========================================================================== */
+		handlebars: {
+			compile: {
+				namespace: function(filename) {
+					var names = filename.replace(/modules\/(.*)(\/\w+\.hbs)/, '$1');
+
+					return names.split('/').join('.');
+				},
+				files: {
+					'tmp/appTemplates.js': 'access/src/handlebars/*.hbs'
+				}
+			}
+		},
+
+		'compile-handlebars': {
+			allStatic: {
+				files: [{
+					src: 'access/src/handlebars/*.hbs',
+					dest: 'access/src/templates/handlebarsStatic.html'
+				}],
+				templateData: 'data.json'
+			},
+		},
+
+		includes: {
+			files: {
+				flatten: true,
+				src: ['access/src/templates/*.html'],
+				dest: 'tmp/html'
+			}
+		},
 
 		'sails-linker': {
 			addScripts: {
@@ -278,6 +287,8 @@ module.exports = function (grunt) {
 			}
 		},
 
+/*  AFTER
+	========================================================================== */
 		clean : {
 		    yourTarget : {
 		        src : ['tmp/*', 'access/src/templates/handlebarsStatic.html']
@@ -304,42 +315,52 @@ module.exports = function (grunt) {
 	    },
 
 	});
+	grunt.loadNpmTasks('grunt-curl');
+	grunt.loadNpmTasks('main-bower-files');
 
 	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
+
+	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-autoprefixer');
-	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
-	grunt.loadNpmTasks('grunt-contrib-clean');
+
 	grunt.loadNpmTasks('grunt-contrib-handlebars');
-	grunt.loadNpmTasks('grunt-sails-linker');
-	grunt.loadNpmTasks('grunt-curl');
-	grunt.loadNpmTasks('grunt-multi-language');
-	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('main-bower-files');
 	grunt.loadNpmTasks('grunt-compile-handlebars');
 	grunt.loadNpmTasks('grunt-includes');
+	grunt.loadNpmTasks('grunt-multi-language');
+	grunt.loadNpmTasks('grunt-sails-linker');
+	grunt.loadNpmTasks('grunt-contrib-copy');
+	
+	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 	// grunt.loadNpmTasks('grunt-contrib-htmlmin'); - Disable htmlmin
 
 	grunt.file.defaultEncoding = 'utf-8';
 	grunt.file.preserveBOM = true;
 
-	grunt.registerTask('default', ['jshint',
-		'handlebars',
-		'compile-handlebars',
-		'includes',
+	grunt.registerTask('default', [
+		'jshint',
+
 		'concat',
 		'uglify',
+
 		'less',
 		'autoprefixer',
 		'cssmin',
+
 		'imagemin',
+
+		'handlebars',
+		'compile-handlebars',
+		'includes',
 		'multi_language',
 		'sails-linker',
 		'copy',
+
 		'clean',
 		'watch'
 	]);
